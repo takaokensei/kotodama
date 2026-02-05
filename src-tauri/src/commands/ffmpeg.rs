@@ -124,3 +124,54 @@ async fn extract_subtitle(video_path: &str, track_index: Option<usize>) -> Resul
 
     Ok(file)
 }
+
+#[tauri::command]
+pub async fn embed_subtitle_command(
+    video_path: String,
+    subtitle_path: String,
+    output_path: String,
+    language: Option<String>,
+    title: Option<String>,
+) -> Result<String, String> {
+    embed_subtitle(&video_path, &subtitle_path, &output_path, language, title)
+        .await
+        .map_err(|e| e.to_string())
+}
+
+async fn embed_subtitle(
+    video_path: &str,
+    subtitle_path: &str,
+    output_path: &str,
+    language: Option<String>,
+    title: Option<String>,
+) -> Result<String> {
+    // Build FFmpeg command to mux subtitle into video
+    let mut args = vec![
+        "-i", video_path,
+        "-i", subtitle_path,
+        "-c", "copy",        // Copy all streams without re-encoding
+        "-c:s", "copy",      // Copy subtitle codec
+    ];
+
+    // Add metadata for the new subtitle track
+    let lang = language.unwrap_or_else(|| "por".to_string());
+    let track_title = title.unwrap_or_else(|| "Portuguese (Translated)".to_string());
+    
+    args.extend_from_slice(&[
+        "-metadata:s:s:1", &format!("language={}", lang),
+        "-metadata:s:s:1", &format!("title={}", track_title),
+        "-y", // Overwrite output file
+        output_path,
+    ]);
+
+    let status = Command::new("ffmpeg")
+        .args(&args)
+        .status()
+        .map_err(|e| anyhow!("Failed to execute ffmpeg: {}. Is ffmpeg in PATH?", e))?;
+
+    if !status.success() {
+        return Err(anyhow!("FFmpeg muxing failed with error code"));
+    }
+
+    Ok(output_path.to_string())
+}

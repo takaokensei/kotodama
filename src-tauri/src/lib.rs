@@ -16,8 +16,10 @@ pub fn run() {
             greet,
             commands::subs::translate_batch_command,
             commands::files::open_subtitle_command,
+            commands::files::save_subtitle_command,
             commands::ffmpeg::extract_subtitle_command,
-            commands::ffmpeg::scan_subtitle_tracks_command
+            commands::ffmpeg::scan_subtitle_tracks_command,
+            commands::ffmpeg::embed_subtitle_command
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

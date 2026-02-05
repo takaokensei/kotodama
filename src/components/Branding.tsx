@@ -27,11 +27,28 @@ export function Logo({ className, collapsed = false }: { className?: string; col
 export function LoadingScreen() {
     const [visible, setVisible] = useState(true);
     const [fading, setFading] = useState(false);
+    const [progress, setProgress] = useState(0);
 
     useEffect(() => {
+        // Animate progress from 0 to 100 over 1500ms
+        const progressInterval = setInterval(() => {
+            setProgress(prev => {
+                if (prev >= 100) {
+                    clearInterval(progressInterval);
+                    return 100;
+                }
+                return prev + 2; // Increment by 2% every ~30ms (1500ms / 50 steps)
+            });
+        }, 30);
+
         const timer = setTimeout(() => setFading(true), 1500); // Start fade out
         const remove = setTimeout(() => setVisible(false), 2000); // Remove from DOM
-        return () => { clearTimeout(timer); clearTimeout(remove); };
+
+        return () => {
+            clearInterval(progressInterval);
+            clearTimeout(timer);
+            clearTimeout(remove);
+        };
     }, []);
 
     if (!visible) return null;
@@ -46,10 +63,13 @@ export function LoadingScreen() {
             </div>
             <div className="mt-8 flex flex-col items-center gap-2">
                 <div className="h-1 w-32 bg-secondary rounded-full overflow-hidden">
-                    <div className="h-full bg-primary animate-[translateX_1s_ease-in-out_infinite] w-1/3 rounded-full" />
+                    <div
+                        className="h-full bg-primary rounded-full transition-all duration-75 ease-linear"
+                        style={{ width: `${progress}%` }}
+                    />
                 </div>
                 <span className="text-xs text-muted-foreground font-mono animate-pulse">
-                    INITIALIZING SYSTEM...
+                    INITIALIZING SYSTEM... {progress}%
                 </span>
             </div>
         </div>

@@ -1,12 +1,12 @@
 import { useRef, useState } from 'react'
 import { useVirtualizer } from '@tanstack/react-virtual'
-import { SubtitleEvent, SubtitleFile, SubtitleTrack } from '@/lib/types'
+import { SubtitleEvent, SubtitleFile, SubtitleTrack, SubtitleFormat } from '@/lib/types'
 import { invoke } from '@tauri-apps/api/core'
 import { open } from '@tauri-apps/plugin-dialog';
 import { Button } from "@/components/ui/button"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog"
 import { Progress } from "@/components/ui/progress"
-import { Play, FileVideo, FileText, Globe, MessageSquare, X } from "lucide-react"
+import { Play, FileVideo, FileText, Globe, MessageSquare, X, Download } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Logo } from "@/components/Branding"
 
@@ -16,6 +16,7 @@ export function SubtitleList() {
     const [rows, setRows] = useState<SubtitleEvent[]>([])
     const [isTranslating, setIsTranslating] = useState(false)
     const [currentFile, setCurrentFile] = useState<string | null>(null)
+    const [originalVideoPath, setOriginalVideoPath] = useState<string | null>(null)
 
     const [tracks, setTracks] = useState<SubtitleTrack[]>([])
     const [showTrackSelection, setShowTrackSelection] = useState(false)
@@ -107,6 +108,46 @@ export function SubtitleList() {
         setIsCancelling(true);
     }
 
+    const handleExportToMKV = async () => {
+        if (!originalVideoPath || rows.length === 0) {
+            alert("No video loaded or no subtitles to export");
+            return;
+        }
+
+        try {
+            // 1. Save current subtitles to temp file
+            const tempSubPath = `${originalVideoPath}.translated.ass`;
+            const subtitleFile: SubtitleFile = {
+                events: rows,
+                format: SubtitleFormat.Ass,
+                header: ""
+            };
+
+            await invoke('save_subtitle_command', {
+                file: subtitleFile,
+                path: tempSubPath
+            });
+
+            // 2. Generate output path
+            const outputPath = originalVideoPath.replace(/\.mkv$/i, '.translated.mkv');
+
+            // 3. Embed subtitles
+            console.log("Muxing subtitles into:", outputPath);
+            await invoke<string>('embed_subtitle_command', {
+                videoPath: originalVideoPath,
+                subtitlePath: tempSubPath,
+                outputPath: outputPath,
+                language: "por",
+                title: "Portuguese (Translated)"
+            });
+
+            alert(`Export successful!\nOutput: ${outputPath}`);
+        } catch (e) {
+            console.error("Export failed:", e);
+            alert("Export Failed: " + e);
+        }
+    }
+
     const handleLoadTestFile = async () => {
         try {
             // Hardcoded path for testing as requested
@@ -169,8 +210,8 @@ export function SubtitleList() {
 
             console.log("Extracted & Parsed:", file);
             setRows(file.events);
-            const filename = path.split('\\').pop() || "Imported Video";
-            setCurrentFile(filename);
+            setCurrentFile(path.split(/[\\/]/).pop() || path);
+            setOriginalVideoPath(path); // Store original video path for export
         } catch (e) {
             console.error("Extraction failed:", e);
             alert("Extraction Failed: " + e);
@@ -238,6 +279,18 @@ export function SubtitleList() {
                             <X className="w-4 h-4" /> Cancel
                         </Button>
                     )}
+
+                    <div className="h-6 w-px bg-border mx-1" />
+
+                    <Button
+                        variant="default"
+                        size="sm"
+                        onClick={handleExportToMKV}
+                        disabled={!originalVideoPath || rows.length === 0}
+                        className="gap-2 bg-accent hover:bg-accent/90"
+                    >
+                        <Download className="w-4 h-4" /> Export to MKV
+                    </Button>
                 </div>
                 <div className="text-xs text-muted-foreground font-mono">
                     {rows.length} Events
