@@ -437,8 +437,8 @@ export function SubtitleList() {
                         className={cn(
                             "gap-2 transition-all duration-300",
                             hasTranslations
-                                ? "bg-accent hover:bg-accent/90 shadow-lg shadow-accent/50"
-                                : "bg-accent/50 hover:bg-accent/60"
+                                ? "bg-accent hover:bg-accent/90 shadow-lg shadow-accent/50 ring-2 ring-accent/30"
+                                : "bg-muted/30 hover:bg-muted/50 text-muted-foreground"
                         )}
                     >
                         <Download className="w-4 h-4" /> Export to MKV
