@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { useRef, useState, useEffect } from 'react'
 import { useVirtualizer } from '@tanstack/react-virtual'
 import { SubtitleEvent, SubtitleFile, SubtitleTrack, SubtitleFormat } from '@/lib/types'
 import { invoke } from '@tauri-apps/api/core'
@@ -11,7 +11,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Badge } from "@/components/ui/badge"
-import { Play, FileVideo, FileText, Globe, MessageSquare, X, Download, ListFilter, ChevronDown } from "lucide-react"
+import { Play, FileVideo, FileText, Globe, MessageSquare, X, Download, ListFilter, ChevronDown, Search, Replace, ChevronUp, CaseSensitive } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Logo } from "@/components/Branding"
 
@@ -38,6 +38,72 @@ export function SubtitleList() {
     const [rangeMode, setRangeMode] = useState<'index' | 'time'>('index')
     const [rangeStart, setRangeStart] = useState('1')
     const [rangeEnd, setRangeEnd] = useState('25')
+
+    // Search & Replace state
+    const [showSearch, setShowSearch] = useState(false)
+    const [searchQuery, setSearchQuery] = useState('')
+    const [replaceQuery, setReplaceQuery] = useState('')
+    const [isCaseSensitive, setIsCaseSensitive] = useState(false)
+    const [searchMatches, setSearchMatches] = useState<number[]>([])
+    const [currentMatchIndex, setCurrentMatchIndex] = useState(-1)
+
+    // Search & Replace logic
+    useEffect(() => {
+        const handleKeyDown = (e: KeyboardEvent) => {
+            if (e.ctrlKey && e.key === 'f') {
+                e.preventDefault()
+                setShowSearch(prev => !prev)
+            }
+        }
+        window.addEventListener('keydown', handleKeyDown)
+        return () => window.removeEventListener('keydown', handleKeyDown)
+    }, [])
+
+    useEffect(() => {
+        if (!searchQuery) {
+            setSearchMatches([])
+            setCurrentMatchIndex(-1)
+            return
+        }
+
+        const matches: number[] = []
+        const query = isCaseSensitive ? searchQuery : searchQuery.toLowerCase()
+
+        rows.forEach((row, idx) => {
+            const textSource = isCaseSensitive ? row.raw_text : row.raw_text.toLowerCase()
+            const textTarget = isCaseSensitive ? row.text_only : row.text_only.toLowerCase()
+
+            if (textSource.includes(query) || textTarget.includes(query)) {
+                matches.push(idx)
+            }
+        })
+
+        setSearchMatches(matches)
+        setCurrentMatchIndex(matches.length > 0 ? 0 : -1)
+    }, [searchQuery, isCaseSensitive, rows])
+
+    const handleReplaceAll = () => {
+        if (!searchQuery) return
+
+        setRows(prev => prev.map(row => {
+            // Using regex for global replace with case sensitivity support
+            const escapedSearch = searchQuery.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+            const regex = new RegExp(escapedSearch, isCaseSensitive ? 'g' : 'gi')
+            return {
+                ...row,
+                text_only: row.text_only.replace(regex, replaceQuery)
+            }
+        }))
+        setHasTranslations(true)
+    }
+
+    const scrollToMatch = (index: number) => {
+        if (index >= 0 && index < searchMatches.length) {
+            const rowIndex = searchMatches[index]
+            rowVirtualizer.scrollToIndex(rowIndex, { align: 'center' })
+            setCurrentMatchIndex(index)
+        }
+    }
 
     const rowVirtualizer = useVirtualizer({
         count: rows.length,
@@ -376,6 +442,19 @@ export function SubtitleList() {
                         Import Video (MKV)
                     </Button>
 
+                    <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => setShowSearch(prev => !prev)}
+                        className={cn(
+                            "gap-2 transition-colors",
+                            showSearch && "bg-accent text-accent-foreground"
+                        )}
+                    >
+                        <Search className="w-4 h-4" />
+                        Search
+                    </Button>
+
                     <div className="h-6 w-px bg-border mx-1" />
 
                     {/* Range Selector Toggle */}
@@ -447,6 +526,90 @@ export function SubtitleList() {
                     {rows.length} Events
                 </div>
             </div>
+
+            {/* Search & Replace Toolbar */}
+            <Collapsible open={showSearch} onOpenChange={setShowSearch}>
+                <CollapsibleContent className="data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:slide-out-to-top-2 data-[state=open]:slide-in-from-top-2">
+                    <div className="px-4 py-2 bg-card/80 backdrop-blur border-b border-border flex items-center gap-4">
+                        <div className="flex items-center gap-2 flex-1 max-w-sm">
+                            <Search className="w-4 h-4 text-muted-foreground" />
+                            <Input
+                                placeholder="Find..."
+                                value={searchQuery}
+                                onChange={(e) => setSearchQuery(e.target.value)}
+                                className="h-8 py-1 bg-background/50"
+                            />
+                        </div>
+
+                        <div className="flex items-center gap-1 bg-muted/30 rounded-md px-1 py-0.5">
+                            <Button
+                                variant="ghost"
+                                size="icon"
+                                className="h-7 w-7"
+                                onClick={() => scrollToMatch(currentMatchIndex - 1)}
+                                disabled={searchMatches.length <= 0}
+                            >
+                                <ChevronUp className="w-4 h-4" />
+                            </Button>
+                            <Button
+                                variant="ghost"
+                                size="icon"
+                                className="h-7 w-7"
+                                onClick={() => scrollToMatch(currentMatchIndex + 1)}
+                                disabled={searchMatches.length <= 0}
+                            >
+                                <ChevronDown className="w-4 h-4" />
+                            </Button>
+                            <span className="text-[10px] text-muted-foreground font-mono min-w-[60px] text-center">
+                                {searchMatches.length > 0 ? `${currentMatchIndex + 1} / ${searchMatches.length}` : 'no results'}
+                            </span>
+                        </div>
+
+                        <div className="h-6 w-px bg-border mx-1" />
+
+                        <div className="flex items-center gap-2 flex-1 max-w-sm">
+                            <Replace className="w-4 h-4 text-muted-foreground" />
+                            <Input
+                                placeholder="Replace with..."
+                                value={replaceQuery}
+                                onChange={(e) => setReplaceQuery(e.target.value)}
+                                className="h-8 py-1 bg-background/50"
+                            />
+                            <Button
+                                variant="outline"
+                                size="sm"
+                                className="h-8 px-3 text-xs border-accent/20 hover:bg-accent/10"
+                                onClick={handleReplaceAll}
+                                disabled={!searchQuery || searchMatches.length === 0}
+                            >
+                                Replace All
+                            </Button>
+                        </div>
+
+                        <Button
+                            variant="ghost"
+                            size="sm"
+                            className={cn(
+                                "h-8 gap-2 text-xs",
+                                isCaseSensitive ? "bg-accent text-accent-foreground" : "text-muted-foreground"
+                            )}
+                            onClick={() => setIsCaseSensitive(prev => !prev)}
+                        >
+                            <CaseSensitive className="w-4 h-4" />
+                            Case Sensitive
+                        </Button>
+
+                        <Button
+                            variant="ghost"
+                            size="icon"
+                            className="h-8 w-8 ml-auto text-muted-foreground hover:text-foreground"
+                            onClick={() => setShowSearch(false)}
+                        >
+                            <X className="w-4 h-4" />
+                        </Button>
+                    </div>
+                </CollapsibleContent>
+            </Collapsible>
 
             {/* Range Selector Panel */}
             <Collapsible open={showRangeSelector} onOpenChange={setShowRangeSelector}>
