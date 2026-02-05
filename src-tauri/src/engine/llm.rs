@@ -27,7 +27,7 @@ struct OllamaResponse {
     response: String,
 }
 
-#[derive(Serialize)]
+#[derive(Serialize, Deserialize)]
 pub struct RichLine {
     pub actor: String,
     pub text: String,
