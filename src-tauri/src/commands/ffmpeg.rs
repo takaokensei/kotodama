@@ -145,15 +145,14 @@ async fn embed_subtitle(
     language: Option<String>,
     title: Option<String>,
 ) -> Result<String> {
+    println!("Backend: embed_subtitle called");
+    println!("  Video: {}", video_path);
+    println!("  Subtitle: {}", subtitle_path);
+    println!("  Output: {}", output_path);
+    
     // Build FFmpeg command to mux subtitle into video
-    let mut args = vec![
-        "-i", video_path,
-        "-i", subtitle_path,
-        "-c", "copy",        // Copy all streams without re-encoding
-        "-c:s", "copy",      // Copy subtitle codec
-    ];
-
-    // Add metadata for the new subtitle track
+    // -map 0 copies all streams from input 0 (video)
+    // -map 1:0 adds the subtitle from input 1
     let lang = language.unwrap_or_else(|| "por".to_string());
     let track_title = title.unwrap_or_else(|| "Portuguese (Translated)".to_string());
     
@@ -161,21 +160,32 @@ async fn embed_subtitle(
     let lang_metadata = format!("language={}", lang);
     let title_metadata = format!("title={}", track_title);
     
-    args.extend_from_slice(&[
-        "-metadata:s:s:1", &lang_metadata,
-        "-metadata:s:s:1", &title_metadata,
-        "-y", // Overwrite output file
+    let args = vec![
+        "-i", video_path,
+        "-i", subtitle_path,
+        "-map", "0",          // Copy all streams from input 0 (original video)
+        "-map", "1:0",        // Add subtitle from input 1
+        "-c", "copy",         // Copy all streams without re-encoding
+        "-c:s", "ass",        // Ensure subtitle is in ASS format
+        "-metadata:s:s", &lang_metadata,      // Set language for the NEW subtitle track
+        "-metadata:s:s", &title_metadata,     // Set title for the NEW subtitle track
+        "-disposition:s:0", "default",        // Keep first subtitle as default
+        "-y",                 // Overwrite output file
         output_path,
-    ]);
+    ];
 
+    println!("Backend: Running FFmpeg with args: {:?}", args);
+    
     let status = Command::new("ffmpeg")
         .args(&args)
         .status()
         .map_err(|e| anyhow!("Failed to execute ffmpeg: {}. Is ffmpeg in PATH?", e))?;
 
     if !status.success() {
+        println!("Backend: FFmpeg failed with status: {:?}", status);
         return Err(anyhow!("FFmpeg muxing failed with error code"));
     }
 
+    println!("Backend: FFmpeg muxing completed successfully");
     Ok(output_path.to_string())
 }

@@ -115,6 +115,9 @@ export function SubtitleList() {
         }
 
         try {
+            console.log("Starting export process...");
+            console.log("Original video path:", originalVideoPath);
+
             // 1. Save current subtitles to temp file
             const tempSubPath = `${originalVideoPath}.translated.ass`;
             const subtitleFile: SubtitleFile = {
@@ -123,23 +126,27 @@ export function SubtitleList() {
                 header: ""
             };
 
+            console.log("Saving subtitles to:", tempSubPath);
             await invoke('save_subtitle_command', {
                 file: subtitleFile,
                 path: tempSubPath
             });
+            console.log("✓ Subtitles saved successfully");
 
             // 2. Generate output path
             const outputPath = originalVideoPath.replace(/\.mkv$/i, '.translated.mkv');
+            console.log("Output path will be:", outputPath);
 
             // 3. Embed subtitles
-            console.log("Muxing subtitles into:", outputPath);
-            await invoke<string>('embed_subtitle_command', {
+            console.log("Starting FFmpeg muxing...");
+            const result = await invoke<string>('embed_subtitle_command', {
                 videoPath: originalVideoPath,
                 subtitlePath: tempSubPath,
                 outputPath: outputPath,
                 language: "por",
                 title: "Portuguese (Translated)"
             });
+            console.log("✓ FFmpeg muxing completed:", result);
 
             alert(`Export successful!\nOutput: ${outputPath}`);
         } catch (e) {
