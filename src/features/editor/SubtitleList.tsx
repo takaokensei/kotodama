@@ -5,7 +5,8 @@ import { invoke } from '@tauri-apps/api/core'
 import { open } from '@tauri-apps/plugin-dialog';
 import { Button } from "@/components/ui/button"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog"
-import { Play, FileVideo, FileText, Globe, MessageSquare } from "lucide-react"
+import { Progress } from "@/components/ui/progress"
+import { Play, FileVideo, FileText, Globe, MessageSquare, X } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Logo } from "@/components/Branding"
 
@@ -20,6 +21,10 @@ export function SubtitleList() {
     const [showTrackSelection, setShowTrackSelection] = useState(false)
     const [pendingPath, setPendingPath] = useState<string | null>(null)
 
+    const [translationProgress, setTranslationProgress] = useState(0)
+    const [translatedLines, setTranslatedLines] = useState(0)
+    const [isCancelling, setIsCancelling] = useState(false)
+
     const rowVirtualizer = useVirtualizer({
         count: rows.length,
         getScrollElement: () => parentRef.current,
@@ -27,44 +32,79 @@ export function SubtitleList() {
         overscan: 5,
     })
 
-    const handleTestBatch = async () => {
+    const handleTranslateAll = async () => {
         if (isTranslating || rows.length === 0) return;
+
         setIsTranslating(true);
+        setIsCancelling(false);
+        setTranslatedLines(0);
+        setTranslationProgress(0);
 
-        // Select first 25 rows (Increased for GPU utilization)
-        const batchIndices = Array.from({ length: 25 }, (_, i) => i);
-        const batchTexts = batchIndices.map(i => rows[i]?.text_only || "").filter(t => t !== "");
+        const totalLines = rows.length;
+        const batchSize = 25;
+        const totalBatches = Math.ceil(totalLines / batchSize);
+        let currentBatch = 0;
 
-        if (batchTexts.length === 0) {
-            setIsTranslating(false);
-            return;
-        }
-
-        console.log("Sending batch:", batchTexts);
         try {
-            const result = await invoke<string[]>('translate_batch_command', { lines: batchTexts });
-            console.log("Batch Result:", result);
+            for (let i = 0; i < totalLines; i += batchSize) {
+                if (isCancelling) {
+                    console.log("Translation cancelled by user");
+                    break;
+                }
 
-            // Update state
-            setRows(prev => {
-                const newRows = [...prev];
-                result.forEach((translatedText, idx) => {
-                    const rowIndex = batchIndices[idx];
-                    if (newRows[rowIndex]) {
-                        newRows[rowIndex] = {
-                            ...newRows[rowIndex],
-                            text_only: translatedText // Update the editable text with translation
-                        };
-                    }
-                });
-                return newRows;
-            });
+                const batchIndices = Array.from(
+                    { length: Math.min(batchSize, totalLines - i) },
+                    (_, idx) => i + idx
+                );
+                const batchTexts = batchIndices
+                    .map(idx => rows[idx]?.raw_text || "")
+                    .filter(t => t !== "");
 
-        } catch (e) {
-            console.error("Translation failed:", e);
+                if (batchTexts.length === 0) continue;
+
+                console.log(`Batch ${currentBatch + 1}/${totalBatches}:`, batchTexts.length, "lines");
+
+                try {
+                    const result = await invoke<string[]>('translate_batch_command', { lines: batchTexts });
+
+                    // Update rows
+                    setRows(prev => {
+                        const newRows = [...prev];
+                        result.forEach((translatedText, idx) => {
+                            const rowIndex = batchIndices[idx];
+                            if (newRows[rowIndex]) {
+                                newRows[rowIndex] = {
+                                    ...newRows[rowIndex],
+                                    text_only: translatedText
+                                };
+                            }
+                        });
+                        return newRows;
+                    });
+
+                    // Update progress
+                    currentBatch++;
+                    const linesTranslated = Math.min((currentBatch * batchSize), totalLines);
+                    setTranslatedLines(linesTranslated);
+                    setTranslationProgress(Math.round((linesTranslated / totalLines) * 100));
+
+                } catch (e) {
+                    console.error(`Batch ${currentBatch + 1} failed:`, e);
+                    // Continue with next batch despite error
+                }
+            }
+
+            if (!isCancelling) {
+                console.log("Translation complete!");
+            }
         } finally {
             setIsTranslating(false);
+            setIsCancelling(false);
         }
+    }
+
+    const handleCancelTranslation = () => {
+        setIsCancelling(true);
     }
 
     const handleLoadTestFile = async () => {
@@ -173,7 +213,7 @@ export function SubtitleList() {
                     <Button
                         variant="default"
                         size="sm"
-                        onClick={handleTestBatch}
+                        onClick={handleTranslateAll}
                         disabled={isTranslating || rows.length === 0}
                         className="gap-2"
                     >
@@ -183,15 +223,40 @@ export function SubtitleList() {
                             </>
                         ) : (
                             <>
-                                <Play className="w-4 h-4" /> Translate Batch (25)
+                                <Play className="w-4 h-4" /> Translate All
                             </>
                         )}
                     </Button>
+
+                    {isTranslating && (
+                        <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={handleCancelTranslation}
+                            className="gap-2 border-destructive/50 text-destructive hover:bg-destructive/10"
+                        >
+                            <X className="w-4 h-4" /> Cancel
+                        </Button>
+                    )}
                 </div>
                 <div className="text-xs text-muted-foreground font-mono">
                     {rows.length} Events
                 </div>
             </div>
+
+            {/* Progress Bar */}
+            {isTranslating && (
+                <div className="px-4 py-3 bg-card border-b border-border">
+                    <div className="flex items-center gap-4">
+                        <div className="flex-1">
+                            <Progress value={translationProgress} className="h-2" />
+                        </div>
+                        <div className="text-xs font-mono text-muted-foreground min-w-[180px] text-right">
+                            {translatedLines} / {rows.length} lines ({translationProgress}%)
+                        </div>
+                    </div>
+                </div>
+            )}
 
             {/* Grid Headers */}
             <div className="flex bg-muted/50 text-xs font-bold uppercase tracking-wider text-muted-foreground py-2 border-b">
