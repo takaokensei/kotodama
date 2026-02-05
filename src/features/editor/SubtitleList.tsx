@@ -110,7 +110,6 @@ export function SubtitleList() {
 
             if (!isCancelling) {
                 console.log("Translation complete!");
-                console.log("🔵 Setting hasTranslations to TRUE");
                 setHasTranslations(true);
             }
         } finally {
@@ -221,7 +220,6 @@ export function SubtitleList() {
 
             if (!isCancelling) {
                 console.log("Range translation complete!");
-                console.log("🔵 Setting hasTranslations to TRUE (range)");
                 setHasTranslations(true);
             }
         } finally {
