@@ -157,9 +157,13 @@ async fn embed_subtitle(
     let lang = language.unwrap_or_else(|| "por".to_string());
     let track_title = title.unwrap_or_else(|| "Portuguese (Translated)".to_string());
     
+    // Create bindings to extend lifetime of format! results
+    let lang_metadata = format!("language={}", lang);
+    let title_metadata = format!("title={}", track_title);
+    
     args.extend_from_slice(&[
-        "-metadata:s:s:1", &format!("language={}", lang),
-        "-metadata:s:s:1", &format!("title={}", track_title),
+        "-metadata:s:s:1", &lang_metadata,
+        "-metadata:s:s:1", &title_metadata,
         "-y", // Overwrite output file
         output_path,
     ]);
