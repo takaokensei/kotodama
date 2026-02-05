@@ -11,6 +11,13 @@ export enum SubtitleFormat {
     Ass = 'Ass',
 }
 
+export interface SubtitleTrack {
+    index: number;
+    codec_name: string;
+    language?: string;
+    title?: string;
+}
+
 export interface SubtitleFile {
     events: SubtitleEvent[];
     format: SubtitleFormat;

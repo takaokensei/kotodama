@@ -1,16 +1,149 @@
 @import "tailwindcss";
 
+@plugin "tailwindcss-animate";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
   --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
+
+  --animate-accordion-down: accordion-down 0.2s ease-out;
+  --animate-accordion-up: accordion-up 0.2s ease-out;
+
+  @keyframes accordion-down {
+    from {
+      height: 0
+    }
+
+    to {
+      height: var(--radix-accordion-content-height)
+    }
+  }
+
+  @keyframes accordion-up {
+    from {
+      height: var(--radix-accordion-content-height)
+    }
+
+    to {
+      height: 0
+    }
+  }
 }
 
 :root {
-  font-family: var(--font-sans);
-  line-height: 1.5;
-  font-weight: 400;
+  /* Tokyo Night Colors (Approx) */
+  /* Background: #1a1b26 -> 236 18% 13% */
+  --background: 236 18% 13%;
+  /* Foreground: #a9b1d6 -> 228 35% 75% */
+  --foreground: 228 35% 75%;
 
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  /* Card: #16161e -> 240 15% 10% */
+  --card: 240 15% 10%;
+  --card-foreground: 228 35% 75%;
+
+  /* Popover: #1a1b26 */
+  --popover: 236 18% 13%;
+  --popover-foreground: 228 35% 75%;
+
+  /* Primary: #7aa2f7 -> 219 90% 72% */
+  --primary: 219 90% 72%;
+  --primary-foreground: 236 18% 13%;
+
+  /* Secondary: #24283b -> 229 23% 19% */
+  --secondary: 229 23% 19%;
+  --secondary-foreground: 219 90% 72%;
+
+  /* Muted: #1f2335 -> 229 26% 16% ??? Let's use darker secondary */
+  --muted: 229 26% 22%;
+  --muted-foreground: 226 23% 60%;
+
+  /* Accent: #414868 -> 228 24% 33% */
+  /* Used for hovers, selected states */
+  --accent: 228 24% 33%;
+  --accent-foreground: 228 35% 90%;
+
+  /* Destructive: #f7768e -> 349 89% 72% */
+  --destructive: 349 89% 72%;
+  --destructive-foreground: 210 40% 98%;
+
+  /* Border: #24283b (Subtle) */
+  --border: 229 23% 25%;
+  --input: 229 23% 19%;
+  --ring: 219 90% 72%;
+
+  --radius: 0.5rem;
+}
+
+.dark {
+  /* Same as root because we are always dark mode Tokyo Night */
+  --background: 236 18% 13%;
+  --foreground: 228 35% 75%;
+
+  --card: 240 15% 10%;
+  --card-foreground: 228 35% 75%;
+
+  --popover: 236 18% 13%;
+  --popover-foreground: 228 35% 75%;
+
+  --primary: 219 90% 72%;
+  --primary-foreground: 236 18% 13%;
+
+  --secondary: 229 23% 19%;
+  --secondary-foreground: 219 90% 72%;
+
+  --muted: 229 26% 22%;
+  --muted-foreground: 226 23% 60%;
+
+  --accent: 228 24% 33%;
+  --accent-foreground: 228 35% 90%;
+
+  --destructive: 349 89% 72%;
+  --destructive-foreground: 210 40% 98%;
+
+  --border: 229 23% 25%;
+  --input: 229 23% 19%;
+  --ring: 219 90% 72%;
+}
+
+/* Base Styles */
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
 }

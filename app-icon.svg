@@ -1,0 +1,51 @@
+<svg width="1024" height="1024" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="1024" height="1024" rx="180" fill="#1a1b26"/>
+  
+  <!-- Torii Gate Structure -->
+  <!-- Top horizontal beam (kasagi) -->
+  <path d="M 150 200 Q 150 180 170 180 L 854 180 Q 874 180 874 200 L 874 240 Q 874 260 854 260 L 170 260 Q 150 260 150 240 Z" fill="#414868" opacity="0.8"/>
+  
+  <!-- Second horizontal beam (nuki) -->
+  <rect x="200" y="300" width="624" height="50" rx="8" fill="#7aa2f7"/>
+  
+  <!-- Left pillar -->
+  <rect x="250" y="240" width="80" height="520" rx="10" fill="#414868" opacity="0.9"/>
+  
+  <!-- Right pillar -->
+  <rect x="694" y="240" width="80" height="520" rx="10" fill="#414868" opacity="0.9"/>
+  
+  <!-- Kanji 言 (kotodama) in center -->
+  <g transform="translate(512, 580)">
+    <!-- Top horizontal stroke -->
+    <rect x="-180" y="-200" width="360" height="45" rx="8" fill="#7aa2f7"/>
+    
+    <!-- Second horizontal stroke -->
+    <rect x="-160" y="-120" width="320" height="40" rx="6" fill="#7aa2f7"/>
+    
+    <!-- Third horizontal stroke -->
+    <rect x="-160" y="-50" width="320" height="40" rx="6" fill="#7aa2f7"/>
+    
+    <!-- Mouth radical (口) -->
+    <rect x="-140" y="30" width="280" height="35" rx="6" fill="#7aa2f7"/>
+    <rect x="-140" y="30" width="35" height="150" rx="6" fill="#7aa2f7"/>
+    <rect x="105" y="30" width="35" height="150" rx="6" fill="#7aa2f7"/>
+    <rect x="-140" y="145" width="280" height="35" rx="6" fill="#7aa2f7"/>
+  </g>
+  
+  <!-- Glow effect -->
+  <defs>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="8" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Accent dot (bottom right) -->
+  <circle cx="880" cy="880" r="20" fill="#2ac3de" filter="url(#glow)">
+    <animate attributeName="opacity" values="0.6;1;0.6" dur="2s" repeatCount="indefinite"/>
+  </circle>
+</svg>

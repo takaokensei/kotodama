@@ -29,4 +29,6 @@ log = "0.4.29"
 env_logger = "0.11.8"
 regex = "1.12.3"
 reqwest = { version = "0.13.1", features = ["json"] }
+tempfile = "3.24.0"
+tauri-plugin-dialog = "2"
 
