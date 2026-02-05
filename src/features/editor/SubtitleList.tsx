@@ -437,7 +437,7 @@ export function SubtitleList() {
                         className={cn(
                             "gap-2 transition-all duration-300",
                             hasTranslations
-                                ? "bg-accent hover:bg-accent/90 shadow-lg shadow-accent/50 animate-pulse"
+                                ? "bg-accent hover:bg-accent/90 shadow-lg shadow-accent/50"
                                 : "bg-accent/50 hover:bg-accent/60"
                         )}
                     >
