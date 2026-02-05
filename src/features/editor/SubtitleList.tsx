@@ -179,6 +179,7 @@ export function SubtitleList() {
         setTranslationProgress(0);
 
         const totalLines = end - start;
+        setTotalLinesToTranslate(totalLines);
         const batchSize = 25;
         let currentBatch = 0;
 
