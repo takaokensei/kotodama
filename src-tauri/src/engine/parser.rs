@@ -17,6 +17,8 @@ pub struct SubtitleEvent {
     pub index: usize,
     pub start_ms: u64,
     pub end_ms: u64,
+    pub actor: String,     // Who is speaking
+    pub style: String,     // Formatting style
     pub text_only: String, // Clean text for LLM inference
     pub raw_text: String,  // Original text payload (preserving tags/structure)
 }
@@ -116,6 +118,8 @@ fn parse_srt(content: &str) -> Result<SubtitleFile> {
             index,
             start_ms,
             end_ms,
+            actor: String::new(),
+            style: String::new(),
             text_only,
             raw_text,
         });
@@ -192,6 +196,10 @@ pub fn parse_ass(content: &str) -> Result<SubtitleFile> {
 
             let start_idx = format_order.iter().position(|s| s == "start").unwrap_or(1);
             let end_idx = format_order.iter().position(|s| s == "end").unwrap_or(2);
+            let actor_idx = format_order.iter().position(|s| s == "name").unwrap_or(
+                format_order.iter().position(|s| s == "actor").unwrap_or(4)
+            );
+            let style_idx = format_order.iter().position(|s| s == "style").unwrap_or(3);
             let text_idx = format_order.len() - 1;
 
             let start_str = parts[start_idx].trim();
@@ -207,6 +215,8 @@ pub fn parse_ass(content: &str) -> Result<SubtitleFile> {
                 index: idx_counter,
                 start_ms,
                 end_ms,
+                actor: parts.get(actor_idx).unwrap_or(&"").trim().to_string(),
+                style: parts.get(style_idx).unwrap_or(&"").trim().to_string(),
                 text_only,
                 raw_text,
             });

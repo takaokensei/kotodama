@@ -27,6 +27,12 @@ struct OllamaResponse {
     response: String,
 }
 
+#[derive(Serialize)]
+pub struct RichLine {
+    pub actor: String,
+    pub text: String,
+}
+
 #[derive(Deserialize)]
 struct TranslationOutput {
     translations: Vec<String>,
@@ -48,7 +54,8 @@ impl OllamaClient {
 
     pub async fn translate_batch(
         &self, 
-        lines: Vec<String>, 
+        lines: Vec<RichLine>, 
+        history: Option<Vec<String>>,
         glossary: Option<Vec<(String, String)>>
     ) -> Result<Vec<String>> {
         if lines.is_empty() {
@@ -66,6 +73,13 @@ impl OllamaClient {
             _ => String::new(),
         };
 
+        let history_context = match history {
+            Some(h) if !h.is_empty() => {
+                format!("\nRecent Context (Previous Translations):\n- {}\n", h.join("\n- "))
+            }
+            _ => String::new(),
+        };
+
         let system_prompt = format!(r#"
 You are an expert anime fansub translator (English to Portuguese Brazil).
 Translate the subtitle lines contained in the input array.
@@ -73,25 +87,29 @@ Translate the subtitle lines contained in the input array.
 Context:
 - Genre: General Anime / Slice of Life / Isekai.
 - Tone: Informal, spoken, natural Brazilian Portuguese (Anime Fansub style).
-{}
+{}{}
 Output Format:
 JSON Object: {{ "translations": ["Line 1", "Line 2"] }}
 
 Rules:
-1. **Translate concepts, not just words**: Adapt idioms to Portuguese (e.g., "Talk about close" -> "Foi por pouco!").
-2. **Avoid Literal Translation**: Detect phrasing like "spending lunch reading" and translate the *meaning* (e.g., "passava o almoço lendo").
-3. **Preserve newlines (\n)** exactly where they appear in the source.
-4. Maintain exact line count.
-5. Do not output markdown.
+1. **Persona Consistency**: Use the provided "Actor" names to maintain a consistent voice.
+2. **Translate concepts, not just words**: Adapt idioms to Portuguese (e.g., "Talk about close" -> "Foi por pouco!").
+3. **Avoid Literal Translation**: Detect phrasing like "spending lunch reading" and translate the *meaning* (e.g., "passava o almoço lendo").
+4. **Preserve newlines (\n)** exactly where they appear in the source.
+5. Maintain exact line count.
+6. Do not output markdown.
 
-Example Input:
-["Hello.", "I was spending lunch reading.", "It's a beautiful day.\nLet's go!"]
+Example Input (Rich Format):
+[
+  {{ "actor": "Hitori", "text": "I was spending lunch reading." }},
+  {{ "actor": "Nijika", "text": "It's a beautiful day.\nLet's go!" }}
+]
 
 Example Output:
 {{
-  "translations": ["Olá.", "Eu passava o almoço lendo.", "Está um belo dia.\nVamos nessa!"]
+  "translations": ["Eu passava o almoço lendo.", "Está um belo dia.\nVamos nessa!"]
 }}
-"#, glossary_context);
+"#, history_context, glossary_context);
 
         let user_prompt = format!(
             "Translate the following JSON array to Brazilian Portuguese:\n{}",

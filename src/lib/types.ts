@@ -2,8 +2,10 @@ export interface SubtitleEvent {
     index: number;
     start_ms: number;
     end_ms: number;
+    actor: string;
+    style: string;
     text_only: string;
-    raw_text: string; // Changed from original_text/style_tags to raw_text
+    raw_text: string;
 }
 
 export enum SubtitleFormat {

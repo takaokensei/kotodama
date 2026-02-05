@@ -1,4 +1,4 @@
-use crate::engine::llm::OllamaClient;
+use crate::engine::llm::{OllamaClient, RichLine};
 use regex::Regex;
 
 // Strip ASS formatting codes that interfere with translation
@@ -22,31 +22,31 @@ fn strip_ass_formatting(text: &str) -> String {
     cleaned.trim().to_string()
 }
 
-// State management for OllamaClient could be added here later,
-// for now we instantiate on demand or standard lazy static if needed.
-// But following simple pattern:
-
 #[tauri::command]
 pub async fn translate_batch_command(
-    lines: Vec<String>,
+    lines: Vec<RichLine>,
+    history: Option<Vec<String>>,
     glossary: Option<Vec<(String, String)>>
 ) -> Result<Vec<String>, String> {
     println!(
-        "Backend: translate_batch_command called with {} lines and glossary: {:?}",
+        "Backend: translate_batch_command called with {} lines, history: {} lines, glossary: {:?}",
         lines.len(),
+        history.as_ref().map(|h| h.len()).unwrap_or(0),
         glossary
     );
 
-
-    // Strip ASS formatting codes before translation
-    let cleaned_lines: Vec<String> = lines.iter()
-        .map(|line| strip_ass_formatting(line))
+    // Strip ASS formatting codes before translation for each line
+    let cleaned_lines: Vec<RichLine> = lines.into_iter()
+        .map(|mut line| {
+            line.text = strip_ass_formatting(&line.text);
+            line
+        })
         .collect();
 
     // Instantiate client (in production, use managed state)
     let client = OllamaClient::new(None);
 
-    match client.translate_batch(cleaned_lines, glossary).await {
+    match client.translate_batch(cleaned_lines, history, glossary).await {
         Ok(translated) => {
             println!("Backend: Translation success: {:?}", translated);
             Ok(translated)

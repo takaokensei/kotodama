@@ -191,18 +191,30 @@ export function SubtitleList() {
                     { length: Math.min(batchSize, totalLines - i) },
                     (_, idx) => i + idx
                 );
-                const batchTexts = batchIndices
-                    .map(idx => rows[idx]?.raw_text || "")
-                    .filter(t => t !== "");
 
-                if (batchTexts.length === 0) continue;
+                const batchRichLines = batchIndices
+                    .map(idx => ({
+                        actor: rows[idx]?.actor || "Narrator",
+                        text: rows[idx]?.raw_text || ""
+                    }))
+                    .filter(line => line.text !== "");
 
-                console.log(`Batch ${currentBatch + 1}/${totalBatches}:`, batchTexts.length, "lines");
+                if (batchRichLines.length === 0) continue;
+
+                // Context Buffer: Last 5 translated lines
+                const history = i > 0
+                    ? rows.slice(Math.max(0, i - 5), i)
+                        .map(r => r.text_only)
+                        .filter(t => t !== "")
+                    : null;
+
+                console.log(`Batch ${currentBatch + 1}/${totalBatches}:`, batchRichLines.length, "lines");
 
                 try {
                     const glossaryPayload = glossary.map(g => [g.original, g.translated]);
                     const result = await invoke<string[]>('translate_batch_command', {
-                        lines: batchTexts,
+                        lines: batchRichLines,
+                        history: history,
                         glossary: glossaryPayload.length > 0 ? glossaryPayload : null
                     });
 
@@ -321,12 +333,23 @@ export function SubtitleList() {
             while (currentBatch * batchSize < totalLines && !isCancelling) {
                 const batchStart = start + (currentBatch * batchSize);
                 const batchEnd = Math.min(batchStart + batchSize, end);
-                const batchTexts = rows.slice(batchStart, batchEnd).map(r => r.raw_text);
+
+                const batchRichLines = rows.slice(batchStart, batchEnd).map(r => ({
+                    actor: r.actor || "Narrator",
+                    text: r.raw_text
+                }));
+
+                const history = batchStart > 0
+                    ? rows.slice(Math.max(0, batchStart - 5), batchStart)
+                        .map(r => r.text_only)
+                        .filter(t => t !== "")
+                    : null;
 
                 try {
                     const glossaryPayload = glossary.map(g => [g.original, g.translated]);
                     const result = await invoke<string[]>('translate_batch_command', {
-                        lines: batchTexts,
+                        lines: batchRichLines,
+                        history: history,
                         glossary: glossaryPayload.length > 0 ? glossaryPayload : null
                     });
 
@@ -1017,6 +1040,7 @@ export function SubtitleList() {
             {/* Grid Headers */}
             <div className="flex bg-muted/50 text-xs font-bold uppercase tracking-wider text-muted-foreground py-2 border-b">
                 <div className="w-16 text-center">#</div>
+                <div className="w-24 px-2 text-left">Actor</div>
                 <div className="flex-1 px-4">Source (EN)</div>
                 <div className="flex-1 px-4">Target (PT-BR)</div>
                 <div className="w-16 text-center">Status</div>
@@ -1058,6 +1082,11 @@ export function SubtitleList() {
                                 {/* Index */}
                                 <div className="w-16 py-3 text-xs text-muted-foreground text-center font-mono select-none">
                                     {row.index}
+                                </div>
+
+                                {/* Actor */}
+                                <div className="w-24 py-3 px-2 text-[10px] font-bold text-primary/70 uppercase tracking-tighter truncate border-r border-border/50">
+                                    {row.actor || "-"}
                                 </div>
 
                                 {/* Source */}
