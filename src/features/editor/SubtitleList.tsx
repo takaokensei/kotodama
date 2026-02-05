@@ -432,14 +432,13 @@ export function SubtitleList() {
                     <div className="h-6 w-px bg-border mx-1" />
 
                     <Button
-                        variant="default"
                         size="sm"
                         onClick={handleExportToMKV}
                         disabled={!originalVideoPath || rows.length === 0}
                         className={cn(
                             "gap-2 transition-all duration-300",
                             hasTranslations
-                                ? "bg-accent hover:bg-accent/90 shadow-lg shadow-accent/50 ring-2 ring-accent/30"
+                                ? "bg-accent text-accent-foreground hover:bg-accent/90 shadow-lg shadow-accent/50 ring-2 ring-accent/30"
                                 : "bg-muted/30 hover:bg-muted/50 text-muted-foreground"
                         )}
                     >
