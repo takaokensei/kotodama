@@ -6,7 +6,12 @@ import { open } from '@tauri-apps/plugin-dialog';
 import { Button } from "@/components/ui/button"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog"
 import { Progress } from "@/components/ui/progress"
-import { Play, FileVideo, FileText, Globe, MessageSquare, X, Download } from "lucide-react"
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Badge } from "@/components/ui/badge"
+import { Play, FileVideo, FileText, Globe, MessageSquare, X, Download, ListFilter, ChevronDown } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Logo } from "@/components/Branding"
 
@@ -24,7 +29,14 @@ export function SubtitleList() {
 
     const [translationProgress, setTranslationProgress] = useState(0)
     const [translatedLines, setTranslatedLines] = useState(0)
+    const [totalLinesToTranslate, setTotalLinesToTranslate] = useState(0)
     const [isCancelling, setIsCancelling] = useState(false)
+
+    // Range selection state
+    const [showRangeSelector, setShowRangeSelector] = useState(false)
+    const [rangeMode, setRangeMode] = useState<'index' | 'time'>('index')
+    const [rangeStart, setRangeStart] = useState('')
+    const [rangeEnd, setRangeEnd] = useState('')
 
     const rowVirtualizer = useVirtualizer({
         count: rows.length,
@@ -106,6 +118,110 @@ export function SubtitleList() {
 
     const handleCancelTranslation = () => {
         setIsCancelling(true);
+    }
+
+    // Helper: Parse time string (HH:MM:SS or MM:SS) to milliseconds
+    const parseTimeToMs = (time: string): number => {
+        const parts = time.split(':').map(Number);
+        if (parts.length === 3) {
+            return (parts[0] * 3600 + parts[1] * 60 + parts[2]) * 1000;
+        } else if (parts.length === 2) {
+            return (parts[0] * 60 + parts[1]) * 1000;
+        }
+        return 0;
+    }
+
+    // Helper: Get selected range indices
+    const getSelectedRange = (): [number, number] | null => {
+        if (!rangeStart || !rangeEnd) return null;
+
+        if (rangeMode === 'index') {
+            const start = parseInt(rangeStart) - 1; // 1-indexed to 0-indexed
+            const end = parseInt(rangeEnd);
+            if (isNaN(start) || isNaN(end) || start < 0 || end > rows.length || start >= end) {
+                return null;
+            }
+            return [start, end];
+        } else {
+            // Time mode
+            const startMs = parseTimeToMs(rangeStart);
+            const endMs = parseTimeToMs(rangeEnd);
+            if (startMs >= endMs) return null;
+
+            const startIdx = rows.findIndex(r => r.start_ms >= startMs);
+            const endIdx = rows.findIndex(r => r.end_ms > endMs);
+
+            if (startIdx === -1) return null;
+            const finalEndIdx = endIdx === -1 ? rows.length : endIdx;
+
+            if (startIdx >= finalEndIdx) return null;
+            return [startIdx, finalEndIdx];
+        }
+    }
+
+    // Get selected line count for preview
+    const selectedLineCount = (() => {
+        const range = getSelectedRange();
+        return range ? range[1] - range[0] : 0;
+    })();
+
+    const handleTranslateRange = async () => {
+        const range = getSelectedRange();
+        if (!range || isTranslating) {
+            alert("Invalid range selected");
+            return;
+        }
+
+        const [start, end] = range;
+        setIsTranslating(true);
+        setIsCancelling(false);
+        setTranslatedLines(0);
+        setTranslationProgress(0);
+
+        const totalLines = end - start;
+        const batchSize = 25;
+        let currentBatch = 0;
+
+        try {
+            while (currentBatch * batchSize < totalLines && !isCancelling) {
+                const batchStart = start + (currentBatch * batchSize);
+                const batchEnd = Math.min(batchStart + batchSize, end);
+                const batchTexts = rows.slice(batchStart, batchEnd).map(r => r.raw_text);
+
+                try {
+                    const result = await invoke<string[]>('translate_batch_command', { lines: batchTexts });
+
+                    setRows(prevRows => {
+                        const newRows = [...prevRows];
+                        result.forEach((translatedText, i) => {
+                            const rowIndex = batchStart + i;
+                            if (rowIndex < newRows.length) {
+                                newRows[rowIndex] = {
+                                    ...newRows[rowIndex],
+                                    text_only: translatedText
+                                };
+                            }
+                        });
+                        return newRows;
+                    });
+
+                    currentBatch++;
+                    const linesTranslated = Math.min((currentBatch * batchSize), totalLines);
+                    setTranslatedLines(linesTranslated);
+                    setTranslationProgress(Math.round((linesTranslated / totalLines) * 100));
+
+                } catch (e) {
+                    console.error(`Batch ${currentBatch + 1} failed:`, e);
+                }
+            }
+
+            if (!isCancelling) {
+                console.log("Range translation complete!");
+            }
+        } finally {
+            setIsTranslating(false);
+            setIsCancelling(false);
+        }
     }
 
     const handleExportToMKV = async () => {
@@ -258,6 +374,26 @@ export function SubtitleList() {
 
                     <div className="h-6 w-px bg-border mx-1" />
 
+                    {/* Range Selector Toggle */}
+                    <Collapsible open={showRangeSelector} onOpenChange={setShowRangeSelector}>
+                        <CollapsibleTrigger asChild>
+                            <Button
+                                variant="outline"
+                                size="sm"
+                                className="gap-2"
+                            >
+                                <ListFilter className="w-4 h-4" />
+                                Select Range
+                                <ChevronDown className={cn(
+                                    "w-3 h-3 transition-transform",
+                                    showRangeSelector && "rotate-180"
+                                )} />
+                            </Button>
+                        </CollapsibleTrigger>
+                    </Collapsible>
+
+                    <div className="h-6 w-px bg-border mx-1" />
+
                     <Button
                         variant="default"
                         size="sm"
@@ -304,6 +440,110 @@ export function SubtitleList() {
                 </div>
             </div>
 
+            {/* Range Selector Panel */}
+            <Collapsible open={showRangeSelector} onOpenChange={setShowRangeSelector}>
+                <CollapsibleContent>
+                    <div className="px-4 py-3 bg-card/50 backdrop-blur border-b border-border">
+                        <Tabs value={rangeMode} onValueChange={(v) => setRangeMode(v as 'index' | 'time')}>
+                            <TabsList className="grid w-full max-w-[400px] grid-cols-2">
+                                <TabsTrigger value="index">By Index</TabsTrigger>
+                                <TabsTrigger value="time">By Time</TabsTrigger>
+                            </TabsList>
+
+                            <TabsContent value="index" className="space-y-3 mt-3">
+                                <div className="flex items-end gap-3">
+                                    <div className="flex-1">
+                                        <Label htmlFor="range-start-index" className="text-xs">From (Line #)</Label>
+                                        <Input
+                                            id="range-start-index"
+                                            type="number"
+                                            min="1"
+                                            max={rows.length}
+                                            value={rangeStart}
+                                            onChange={(e) => setRangeStart(e.target.value)}
+                                            placeholder="1"
+                                            className="mt-1"
+                                        />
+                                    </div>
+                                    <div className="flex-1">
+                                        <Label htmlFor="range-end-index" className="text-xs">To (Line #)</Label>
+                                        <Input
+                                            id="range-end-index"
+                                            type="number"
+                                            min="1"
+                                            max={rows.length}
+                                            value={rangeEnd}
+                                            onChange={(e) => setRangeEnd(e.target.value)}
+                                            placeholder={rows.length.toString()}
+                                            className="mt-1"
+                                        />
+                                    </div>
+                                    {selectedLineCount > 0 && (
+                                        <Badge variant="secondary" className="mb-2 bg-accent/20 text-accent-foreground">
+                                            {selectedLineCount} lines
+                                        </Badge>
+                                    )}
+                                </div>
+                            </TabsContent>
+
+                            <TabsContent value="time" className="space-y-3 mt-3">
+                                <div className="flex items-end gap-3">
+                                    <div className="flex-1">
+                                        <Label htmlFor="range-start-time" className="text-xs">From (HH:MM:SS)</Label>
+                                        <Input
+                                            id="range-start-time"
+                                            type="text"
+                                            value={rangeStart}
+                                            onChange={(e) => setRangeStart(e.target.value)}
+                                            placeholder="00:00:00"
+                                            className="mt-1 font-mono"
+                                        />
+                                    </div>
+                                    <div className="flex-1">
+                                        <Label htmlFor="range-end-time" className="text-xs">To (HH:MM:SS)</Label>
+                                        <Input
+                                            id="range-end-time"
+                                            type="text"
+                                            value={rangeEnd}
+                                            onChange={(e) => setRangeEnd(e.target.value)}
+                                            placeholder="00:05:00"
+                                            className="mt-1 font-mono"
+                                        />
+                                    </div>
+                                    {selectedLineCount > 0 && (
+                                        <Badge variant="secondary" className="mb-2 bg-accent/20 text-accent-foreground">
+                                            {selectedLineCount} lines
+                                        </Badge>
+                                    )}
+                                </div>
+                            </TabsContent>
+                        </Tabs>
+
+                        <div className="flex gap-2 mt-3">
+                            <Button
+                                size="sm"
+                                onClick={handleTranslateRange}
+                                disabled={selectedLineCount === 0 || isTranslating}
+                                className="gap-2"
+                            >
+                                <Play className="w-3 h-3" />
+                                Translate Range
+                            </Button>
+                            <Button
+                                size="sm"
+                                variant="outline"
+                                onClick={() => {
+                                    setRangeStart('');
+                                    setRangeEnd('');
+                                }}
+                            >
+                                Clear
+                            </Button>
+                        </div>
+                    </div>
+                </CollapsibleContent>
+            </Collapsible>
+
             {/* Progress Bar */}
             {isTranslating && (
                 <div className="px-4 py-3 bg-card border-b border-border">
@@ -312,7 +552,7 @@ export function SubtitleList() {
                             <Progress value={translationProgress} className="h-2" />
                         </div>
                         <div className="text-xs font-mono text-muted-foreground min-w-[180px] text-right">
-                            {translatedLines} / {rows.length} lines ({translationProgress}%)
+                            {translatedLines} / {totalLinesToTranslate || rows.length} lines ({translationProgress}%)
                         </div>
                     </div>
                 </div>
