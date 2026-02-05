@@ -19,7 +19,9 @@ pub fn run() {
             commands::files::save_subtitle_command,
             commands::ffmpeg::extract_subtitle_command,
             commands::ffmpeg::scan_subtitle_tracks_command,
-            commands::ffmpeg::embed_subtitle_command
+            commands::ffmpeg::embed_subtitle_command,
+            commands::files::save_project_command,
+            commands::files::load_project_command
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

@@ -54,3 +54,18 @@ pub async fn save_subtitle_command(file: SubtitleFile, path: String) -> Result<S
     
     Ok(path)
 }
+
+#[tauri::command]
+pub async fn save_project_command(path: String, content: String) -> Result<String, String> {
+    println!("Backend: Saving project to: {}", path);
+    fs::write(&path, content)
+        .map_err(|e| format!("Failed to write project file: {}", e))?;
+    Ok(path)
+}
+
+#[tauri::command]
+pub async fn load_project_command(path: String) -> Result<String, String> {
+    println!("Backend: Loading project from: {}", path);
+    fs::read_to_string(&path)
+        .map_err(|e| format!("Failed to read project file: {}", e))
+}

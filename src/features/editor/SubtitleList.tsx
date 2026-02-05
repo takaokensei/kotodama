@@ -11,7 +11,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Badge } from "@/components/ui/badge"
-import { Play, FileVideo, FileText, Globe, MessageSquare, X, Download, ListFilter, ChevronDown, Search, Replace, ChevronUp, CaseSensitive, Book, Plus, Trash2 } from "lucide-react"
+import { Play, FileVideo, FileText, Globe, MessageSquare, X, Download, ListFilter, ChevronDown, Search, Replace, ChevronUp, CaseSensitive, Book, Plus, Trash2, Save, FolderOpen, Clock } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Logo } from "@/components/Branding"
 import {
@@ -46,6 +46,9 @@ export function SubtitleList() {
     const [totalLinesToTranslate, setTotalLinesToTranslate] = useState(0)
     const [isCancelling, setIsCancelling] = useState(false)
     const [hasTranslations, setHasTranslations] = useState(false)
+
+    // Time estimation state
+    const [estimatedTimeRemaining, setEstimatedTimeRemaining] = useState<number | null>(null)
 
     // Range selection state
     const [showRangeSelector, setShowRangeSelector] = useState(false)
@@ -175,6 +178,7 @@ export function SubtitleList() {
         const batchSize = 25;
         const totalBatches = Math.ceil(totalLines / batchSize);
         let currentBatch = 0;
+        const startTime = performance.now();
 
         try {
             for (let i = 0; i < totalLines; i += batchSize) {
@@ -222,6 +226,12 @@ export function SubtitleList() {
                     const linesTranslated = Math.min((currentBatch * batchSize), totalLines);
                     setTranslatedLines(linesTranslated);
                     setTranslationProgress(Math.round((linesTranslated / totalLines) * 100));
+
+                    // ETA Calculation
+                    const elapsed = performance.now() - startTime;
+                    const msPerLine = elapsed / linesTranslated;
+                    const remainingLines = totalLines - linesTranslated;
+                    setEstimatedTimeRemaining(Math.round((msPerLine * remainingLines) / 1000));
 
                 } catch (e) {
                     console.error(`Batch ${currentBatch + 1} failed:`, e);
@@ -305,6 +315,7 @@ export function SubtitleList() {
         setTotalLinesToTranslate(totalLines);
         const batchSize = 25;
         let currentBatch = 0;
+        const startTime = performance.now();
 
         try {
             while (currentBatch * batchSize < totalLines && !isCancelling) {
@@ -338,6 +349,12 @@ export function SubtitleList() {
                     setTranslatedLines(linesTranslated);
                     setTranslationProgress(Math.round((linesTranslated / totalLines) * 100));
 
+                    // ETA Calculation
+                    const elapsed = performance.now() - startTime;
+                    const msPerLine = elapsed / linesTranslated;
+                    const remainingLines = totalLines - linesTranslated;
+                    setEstimatedTimeRemaining(Math.round((msPerLine * remainingLines) / 1000));
+
                 } catch (e) {
                     console.error(`Batch ${currentBatch + 1} failed:`, e);
                 }
@@ -350,6 +367,72 @@ export function SubtitleList() {
         } finally {
             setIsTranslating(false);
             setIsCancelling(false);
+            setEstimatedTimeRemaining(null);
+        }
+    }
+
+    const formatETA = (seconds: number | null): string => {
+        if (seconds === null) return '';
+        if (seconds < 0) return 'calculating...';
+        const mins = Math.floor(seconds / 60);
+        const secs = seconds % 60;
+        return `${mins}:${secs.toString().padStart(2, '0')}`;
+    }
+
+    const handleSaveProject = async () => {
+        if (rows.length === 0) return;
+
+        try {
+            const savePath = await invoke<string | null>('plugin:dialog|save', {
+                title: 'Save Kotodama Project',
+                filters: [{ name: 'Kotodama Project', extensions: ['koto'] }]
+            });
+
+            if (!savePath) return;
+
+            const projectData = {
+                videoPath: originalVideoPath,
+                subPath: currentFile,
+                events: rows,
+                glossary: glossary,
+                version: "1.0"
+            };
+
+            await invoke('save_project_command', {
+                path: savePath,
+                content: JSON.stringify(projectData, null, 2)
+            });
+
+            console.log("Project saved to:", savePath);
+        } catch (e) {
+            console.error("Save failed:", e);
+            alert("Save Failed: " + e);
+        }
+    }
+
+    const handleLoadProject = async () => {
+        try {
+            const selected = await open({
+                multiple: false,
+                filters: [{ name: 'Kotodama Project', extensions: ['koto'] }]
+            });
+
+            if (!selected || typeof selected !== 'string') return;
+
+            console.log("Loading project from:", selected);
+            const content = await invoke<string>('load_project_command', { path: selected });
+            const projectData = JSON.parse(content);
+
+            if (projectData.events) setRows(projectData.events);
+            if (projectData.videoPath) setOriginalVideoPath(projectData.videoPath);
+            if (projectData.subPath) setCurrentFile(projectData.subPath);
+            if (projectData.glossary) setGlossary(projectData.glossary);
+
+            setHasTranslations(true);
+            console.log("Project loaded successfully!");
+        } catch (e) {
+            console.error("Load failed:", e);
+            alert("Load Failed: Make sure this is a valid .koto file.");
         }
     }
 
@@ -498,8 +581,32 @@ export function SubtitleList() {
                         className="gap-2 border-primary/20 text-primary hover:bg-primary/10"
                     >
                         <FileVideo className="w-4 h-4" />
-                        Import Video (MKV)
+                        Import MKV
                     </Button>
+
+                    <div className="flex gap-1">
+                        <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={handleSaveProject}
+                            disabled={rows.length === 0}
+                            className="gap-1.5"
+                            title="Save Project (.koto)"
+                        >
+                            <Save className="w-4 h-4" />
+                            <span className="hidden lg:inline">Save</span>
+                        </Button>
+                        <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={handleLoadProject}
+                            className="gap-1.5"
+                            title="Load Project (.koto)"
+                        >
+                            <FolderOpen className="w-4 h-4" />
+                            <span className="hidden lg:inline">Load</span>
+                        </Button>
+                    </div>
 
                     <Button
                         variant="ghost"
@@ -890,10 +997,18 @@ export function SubtitleList() {
                 <div className="px-4 py-3 bg-card border-b border-border">
                     <div className="flex items-center gap-4">
                         <div className="flex-1">
+                            <div className="flex justify-between items-center mb-1">
+                                <span className="text-xs font-mono text-muted-foreground">
+                                    {translatedLines} / {totalLinesToTranslate || rows.length} lines ({translationProgress}%)
+                                </span>
+                                {estimatedTimeRemaining !== null && (
+                                    <span className="text-[10px] font-mono text-accent animate-pulse font-bold flex items-center gap-1 bg-accent/10 px-2 py-0.5 rounded-full border border-accent/20">
+                                        <Clock className="w-3 h-3" />
+                                        ETA: {formatETA(estimatedTimeRemaining)}
+                                    </span>
+                                )}
+                            </div>
                             <Progress value={translationProgress} className="h-2" />
-                        </div>
-                        <div className="text-xs font-mono text-muted-foreground min-w-[180px] text-right">
-                            {translatedLines} / {totalLinesToTranslate || rows.length} lines ({translationProgress}%)
                         </div>
                     </div>
                 </div>
