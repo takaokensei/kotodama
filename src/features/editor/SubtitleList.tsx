@@ -36,8 +36,8 @@ export function SubtitleList() {
     // Range selection state
     const [showRangeSelector, setShowRangeSelector] = useState(false)
     const [rangeMode, setRangeMode] = useState<'index' | 'time'>('index')
-    const [rangeStart, setRangeStart] = useState('')
-    const [rangeEnd, setRangeEnd] = useState('')
+    const [rangeStart, setRangeStart] = useState('1')
+    const [rangeEnd, setRangeEnd] = useState('25')
 
     const rowVirtualizer = useVirtualizer({
         count: rows.length,
@@ -455,7 +455,18 @@ export function SubtitleList() {
             <Collapsible open={showRangeSelector} onOpenChange={setShowRangeSelector}>
                 <CollapsibleContent className="data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:slide-out-to-top-2 data-[state=open]:slide-in-from-top-2">
                     <div className="px-4 py-3 bg-card/50 backdrop-blur border-b border-border">
-                        <Tabs value={rangeMode} onValueChange={(v) => setRangeMode(v as 'index' | 'time')}>
+                        <Tabs value={rangeMode} onValueChange={(v) => {
+                            const newMode = v as 'index' | 'time';
+                            setRangeMode(newMode);
+                            // Set default values based on mode
+                            if (newMode === 'index') {
+                                setRangeStart('1');
+                                setRangeEnd('25');
+                            } else {
+                                setRangeStart('00:00:00');
+                                setRangeEnd('00:05:00');
+                            }
+                        }}>
                             <TabsList className="grid w-full max-w-[400px] grid-cols-2">
                                 <TabsTrigger value="index">By Index</TabsTrigger>
                                 <TabsTrigger value="time">By Time</TabsTrigger>
