@@ -1,0 +1,560 @@
+﻿[Script Info]
+Title: [Erai-raws] English (US)
+ScriptType: v4.00+
+WrapStyle: 0
+PlayResX: 1280
+PlayResY: 720
+ScaledBorderAndShadow: yes
+
+[V4+ Styles]
+Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
+Style: Default,Arial,48,&H00FFFFFF,&H00FFFFFF,&H00000000,&H00000000,-1,0,0,0,100,100,0,0,1,1,2,2,20,20,20,1
+Style: Q0,Swis721 BT,48,&H94FDFF,&H94FDFF,&H00000000,&H00000000,-1,0,0,0,100,100,0,0,1,1,2,2,20,20,20,1
+Style: Q1,Technical,40,&H00E1F5FB,&H00E1F5FB,&H00000000,&H00000000,-1,0,0,0,100,100,0,0,1,1,2,2,20,20,20,1
+Style: Q2,Swis721 BT,48,&H00FFFFFF,&H00FFFFFF,&H00000000,&H00000000,-1,0,0,0,100,100,0,0,1,1,2,2,20,20,20,1
+Style: Q3,Swis721 BT,40,&H006E67FF,&H006E67FF,&H00000000,&H00000000,-1,0,0,0,100,100,0,0,1,1,2,2,20,20,20,1
+Style: Q4,Swis721 BT,40,&H004EC7F8,&H004EC7F8,&H00000000,&H00000000,-1,0,0,0,100,100,0,0,1,1,2,2,20,20,20,1
+Style: Q5,Swis721 BT,40,&H007DE8AB,&H007DE8AB,&H00000000,&H00000000,-1,0,0,0,100,100,0,0,1,1,2,2,20,20,20,1
+Style: Q6,Swis721 BT,40,&H00DE91BB,&H00DE91BB,&H00000000,&H00000000,-1,0,0,0,100,100,0,0,1,1,2,2,20,20,20,1
+Style: Q7,Swis721 BT,40,&H00D1C9CB,&H00D1C9CB,&H00000000,&H00000000,-1,0,0,0,100,100,0,0,1,1,2,2,20,20,20,1
+Style: Q8,Staccato222 BT,33,&H00B57B58,&H00B57B58,&H00000000,&H00000000,-1,0,0,0,100,100,0,0,1,1,2,2,20,20,20,1
+Style: Q9,Staccato222 BT,33,&H002423FE,&H002423FE,&H00000000,&H00000000,-1,0,0,0,100,100,0,0,1,1,2,2,20,20,20,1
+Style: Q10,Staccato222 BT,33,&H00B57B58,&H00B57B58,&H00000000,&H00000000,-1,0,0,0,100,100,0,0,1,1,2,2,20,20,20,1
+Style: Q11,Staccato222 BT,33,&H00A4B3C4,&H00A4B3C4,&H00000000,&H00000000,-1,0,0,0,100,100,0,0,1,1,2,2,20,20,20,1
+Style: Q12,Staccato222 BT,33,&H00A4B3C4,&H00A4B3C4,&H00000000,&H00000000,-1,0,0,0,100,100,0,0,1,1,2,2,20,20,20,1
+Style: Q13,Staccato222 BT,33,&H000000FF,&H000000FF,&H00000000,&H00000000,-1,0,0,0,100,100,0,0,1,1,2,2,20,20,20,1
+Style: Q14,Staccato222 BT,33,&H00A4B3C4,&H00A4B3C4,&H00000000,&H00000000,-1,0,0,0,100,100,0,0,1,1,2,2,20,20,20,1
+Style: Q15,Staccato222 BT,33,&H00B57B58,&H00B57B58,&H00000000,&H00000000,-1,0,0,0,100,100,0,0,1,1,2,2,20,20,20,1
+Style: Q16,Staccato222 BT,33,&H000000FF,&H000000FF,&H00000000,&H00000000,-1,0,0,0,100,100,0,0,1,1,2,2,20,20,20,1
+Style: Q17,Staccato222 BT,25,&H002423FE,&H002423FE,&H00000000,&H00000000,-1,0,0,0,100,100,0,0,1,1,2,2,20,20,20,1
+Style: Q18,Staccato222 BT,25,&H002423FE,&H002423FE,&H00000000,&H00000000,-1,0,0,0,100,100,0,0,1,1,2,2,20,20,20,1
+Style: Q19,Swis721 BT,25,&H00A4B3C4,&H00A4B3C4,&H00000000,&H00000000,-1,0,0,0,100,100,0,0,1,1,2,2,20,20,20,1
+Style: Q20,Square 721 Blk,40,&H00A4B3C4,&H00A4B3C4,&H00000000,&H00000000,-1,0,0,0,100,100,0,0,1,1,2,2,20,20,20,1
+Style: Q21,Staccato222 BT,33,&H00B57B58,&H00B57B58,&H00000000,&H00000000,-1,0,0,0,100,100,0,0,1,1,2,2,20,20,20,1
+Style: Q22,Square 721 Blk,40,&H00A4B3C4,&H00A4B3C4,&H00000000,&H00000000,-1,0,0,0,100,100,0,0,1,1,2,2,20,20,20,1
+Style: Q23,Staccato222 BT,25,&H00A4B3C4,&H00A4B3C4,&H00000000,&H00000000,-1,0,0,0,100,100,0,0,1,1,2,2,20,20,20,1
+Style: Q24,VAGRounded BT,33,&H00938FDD,&H00938FDD,&H00000000,&H00000000,-1,0,0,0,100,100,0,0,1,1,2,2,20,20,20,1
+Style: Q25,Staccato222 BT,25,&H00A4B3C4,&H00A4B3C4,&H00000000,&H00000000,-1,0,0,0,100,100,0,0,1,1,2,2,20,20,20,1
+Style: Q26,VAGRounded BT,25,&H00938FDD,&H00938FDD,&H00000000,&H00000000,-1,0,0,0,100,100,0,0,1,1,2,2,20,20,20,1
+Style: Q27,VAGRounded BT,33,&H00A4B3C4,&H00A4B3C4,&H00000000,&H00000000,-1,0,0,0,100,100,0,0,1,1,2,2,20,20,20,1
+Style: Q28,Staccato222 BT,40,&H00A4B3C4,&H00A4B3C4,&H00000000,&H00000000,-1,0,0,0,100,100,0,0,1,1,2,2,20,20,20,1
+Style: Q29,VAGRounded BT,33,&H00A4B3C4,&H00A4B3C4,&H00000000,&H00000000,-1,0,0,0,100,100,0,0,1,1,2,2,20,20,20,1
+Style: Q30,VAGRounded BT,25,&H0064B247,&H0064B247,&H00000000,&H00000000,-1,0,0,0,100,100,0,0,1,1,2,2,20,20,20,1
+Style: Q31,Swis721 BT,40,&H00FFFFFF,&H00FFFFFF,&H00000000,&H00000000,-1,0,0,0,100,100,0,0,1,1,2,2,20,20,20,1
+Style: Q32,VAGRounded BT,25,&H00A4B3C4,&H00A4B3C4,&H00000000,&H00000000,-1,0,0,0,100,100,0,0,1,1,2,2,20,20,20,1
+Style: Q33,VAGRounded BT,40,&H00A4B3C4,&H00A4B3C4,&H00000000,&H00000000,-1,0,0,0,100,100,0,0,1,1,2,2,20,20,20,1
+Style: Q34,Staccato222 BT,25,&H0064B247,&H0064B247,&H00000000,&H00000000,-1,0,0,0,100,100,0,0,1,1,2,2,20,20,20,1
+Style: Q35,Staccato222 BT,25,&H00A4B3C4,&H00A4B3C4,&H00000000,&H00000000,-1,0,0,0,100,100,0,0,1,1,2,2,20,20,20,1
+Style: Q36,Staccato222 BT,33,&H00FFFFFF,&H00FFFFFF,&H00000000,&H00000000,-1,0,0,0,100,100,0,0,1,1,2,2,20,20,20,1
+Style: Q37,Staccato222 BT,33,&H00A4B3C4,&H00A4B3C4,&H00000000,&H00000000,-1,0,0,0,100,100,0,0,1,1,2,2,20,20,20,1
+Style: Q38,VAGRounded BT,25,&H00A4B3C4,&H00A4B3C4,&H00000000,&H00000000,-1,0,0,0,100,100,0,0,1,1,2,2,20,20,20,1
+Style: Q39,Staccato222 BT,33,&H00A4B3C4,&H00A4B3C4,&H00000000,&H00000000,-1,0,0,0,100,100,0,0,1,1,2,2,20,20,20,1
+Style: Q40,Staccato222 BT,25,&H00A4B3C4,&H00A4B3C4,&H00000000,&H00000000,-1,0,0,0,100,100,0,0,1,1,2,2,20,20,20,1
+Style: Q41,Staccato555 BT,40,&H00E794FE,&H00E794FE,&H00000000,&H00000000,-1,0,0,0,100,100,0,0,1,1,2,2,20,20,20,1
+Style: Q42,Staccato222 BT,33,&H00FFFFFF,&H00FFFFFF,&H00000000,&H00000000,-1,0,0,0,100,100,0,0,1,1,2,2,20,20,20,1
+Style: Q43,Square 721 Blk,33,&H006E6DF2,&H006E6DF2,&H00000000,&H00000000,-1,0,0,0,100,100,0,0,1,1,2,2,20,20,20,1
+Style: Q44,Ebrima,33,&H00FFFFFF,&H00FFFFFF,&H00000000,&H00000000,-1,0,0,0,100,100,0,0,1,1,2,2,20,20,20,1
+
+[Events]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+Dialogue: 0,0:01:01.67,0:01:03.04,Q0,,0,0,0,,Talk about close!
+Dialogue: 0,0:01:03.04,0:01:04.63,Q0,,0,0,0,,Glad I dug that.
+Dialogue: 0,0:01:07.71,0:01:15.08,Q0,,0,0,0,,At this very moment,\NI'm working my way through another world alone!
+Dialogue: 0,0:01:24.38,0:01:27.79,Q1,,0,0,0,,{\pos(793.6,590.4)}{\an7}Loner With the Worst Skills
+Dialogue: 0,0:01:24.71,0:01:27.71,Q0,,0,0,0,,Let's take things back to the day I got transported.
+Dialogue: 0,0:01:28.33,0:01:31.96,Q0,,0,0,0,,I was spending lunch reading like always.
+Dialogue: 0,0:01:33.46,0:01:35.25,Q0,,0,0,0,,All alone, as you can see.
+Dialogue: 0,0:01:35.71,0:01:37.75,Q0,,0,0,0,,As anyone can see.
+Dialogue: 0,0:01:38.71,0:01:42.54,Q0,,0,0,0,,Yup. I lived a loner life in the real world, too.
+Dialogue: 0,0:01:43.21,0:01:46.13,Q0,,0,0,0,,Quit rubbing it in! You're not wrong, but still!
+Dialogue: 0,0:01:46.83,0:01:50.00,Q0,,0,0,0,,So why was I alone? That's easy.
+Dialogue: 0,0:01:50.17,0:01:52.96,Q0,,0,0,0,,Because I wanted nothing to do with my classmates.
+Dialogue: 0,0:01:53.67,0:01:55.58,Q0,,0,0,0,,They'd get in the way of my books.
+Dialogue: 0,0:01:56.42,0:01:59.33,Q0,,0,0,0,,If I had to divide up the class, it'd be...
+Dialogue: 0,0:01:59.92,0:02:00.96,Q0,,0,0,0,,...the delinquents.
+Dialogue: 0,0:02:02.33,0:02:03.50,Q0,,0,0,0,,The valley gal sort.
+Dialogue: 0,0:02:04.88,0:02:06.25,Q0,,0,0,0,,The jocks.
+Dialogue: 0,0:02:07.46,0:02:08.63,Q0,,0,0,0,,The nerds.
+Dialogue: 0,0:02:09.67,0:02:10.75,Q0,,0,0,0,,The class reps.
+Dialogue: 0,0:02:13.67,0:02:16.00,Q0,,0,0,0,,Then there's just... the rest.
+Dialogue: 0,0:02:16.50,0:02:19.54,Q0,,0,0,0,,And me, not part of any group.
+Dialogue: 0,0:02:22.58,0:02:24.08,Q0,,0,0,0,,That's when it happened.
+Dialogue: 0,0:02:27.17,0:02:27.75,Q0,,0,0,0,,Holy crap!
+Dialogue: 0,0:02:27.75,0:02:28.46,Q0,,0,0,0,,Wha-?!
+Dialogue: 0,0:02:31.04,0:02:32.71,Q0,,0,0,0,,What is that?!
+Dialogue: 0,0:02:42.29,0:02:45.33,Q0,,0,0,0,,A magic circle?! Just like the one\Nin the light novel I was reading?!
+Dialogue: 0,0:02:45.50,0:02:50.21,Q0,,0,0,0,,I got excited for a quick second,\Nbefore realizing an isekai would be a pain in the ass.
+Dialogue: 0,0:02:50.79,0:02:52.88,Q0,,0,0,0,,I'll stick to the sort in my books.
+Dialogue: 0,0:02:53.25,0:02:55.38,Q0,,0,0,0,,Dunno who's doing this, but no thanks!
+Dialogue: 0,0:02:56.29,0:03:01.38,Q0,,0,0,0,,It was like my body had a mind of its own,\Ntrying desperately to leave the classroom.
+Dialogue: 0,0:03:01.67,0:03:03.08,Q0,,0,0,0,,And it REALLY tried.
+Dialogue: 0,0:03:04.21,0:03:07.04,Q0,,0,0,0,,Yeah, I figured. That's how these things go.
+Dialogue: 0,0:03:10.75,0:03:11.25,Q0,,0,0,0,,No way!
+Dialogue: 0,0:03:11.25,0:03:12.50,Q0,,0,0,0,,My body's disappearing!
+Dialogue: 0,0:03:12.50,0:03:13.63,Q0,,0,0,0,,No freakin' way!
+Dialogue: 0,0:03:13.83,0:03:14.63,Q0,,0,0,0,,Whadda we do?
+Dialogue: 0,0:03:14.63,0:03:15.38,Q0,,0,0,0,,What's goin' on?!
+Dialogue: 0,0:03:15.38,0:03:17.00,Q0,,0,0,0,,Gimme a freaking break!
+Dialogue: 0,0:03:15.38,0:03:16.17,Q2,,0,0,0,,Are we...?
+Dialogue: 0,0:03:20.33,0:03:21.71,Q0,,0,0,0,,Only one way out!
+Dialogue: 0,0:03:21.71,0:03:24.04,Q0,,0,0,0,,My last hope was up into the ceiling.
+Dialogue: 0,0:03:34.88,0:03:37.67,Q0,,0,0,0,,Phew, doubt it'll reach me up here...
+Dialogue: 0,0:03:39.50,0:03:41.79,Q0,,0,0,0,,Noooo!
+Dialogue: 0,0:03:46.04,0:03:49.38,Q0,,0,0,0,,Ugh, I'm in for it now.
+Dialogue: 0,0:03:49.38,0:03:51.58,Q0,,0,0,0,,The ol' nothing-but-white room.
+Dialogue: 0,0:03:52.13,0:03:54.71,Q0,,0,0,0,,So uhh, why is no one else here?
+Dialogue: 0,0:03:54.96,0:04:01.83,Q0,,0,0,0,,Isn't there usually some fatso king or a beautiful princess\Nno geek would ever meet in real life?
+Dialogue: 0,0:04:03.17,0:04:06.21,Q0,,0,0,0,,Hmm? That old guy's all alone like me.
+Dialogue: 0,0:04:08.13,0:04:10.79,Q0,,0,0,0,,The old dude was in a panic.
+Dialogue: 0,0:04:09.17,0:04:10.50,Q3,,0,0,0,,{\pos(486.4,57.6)}{\an7}Why are you here?!
+Dialogue: 0,0:04:10.50,0:04:11.63,Q4,,0,0,0,,{\pos(512,439.2)}{\an7}Everyone's gone!
+Dialogue: 0,0:04:10.79,0:04:13.46,Q0,,0,0,0,,Turns out he's some god in this place.
+Dialogue: 0,0:04:11.92,0:04:13.33,Q5,,0,0,0,,{\pos(473.6,57.6)}{\an7}Hurry and get ready!
+Dialogue: 0,0:04:14.04,0:04:17.08,Q0,,0,0,0,,Apparently, the rest of the class\Nwas out in the new world already.
+Dialogue: 0,0:04:17.08,0:04:19.21,Q0,,0,0,0,,I was the only one left.
+Dialogue: 0,0:04:19.21,0:04:21.79,Q0,,0,0,0,,Guess even the omniscient\Noverlooked my little escape route!
+Dialogue: 0,0:04:22.54,0:04:25.17,Q0,,0,0,0,,He urged me to hurry.
+Dialogue: 0,0:04:23.29,0:04:24.96,Q6,,0,0,0,,{\pos(435.2,57.6)}{\an7}It's first-come first-served!
+Dialogue: 0,0:04:25.17,0:04:28.88,Q0,,0,0,0,,And so I had to set my isekai stats and such.
+Dialogue: 0,0:04:26.21,0:04:27.83,Q7,,0,0,0,,{\pos(473.6,424.8)}{\an7}Got to set your stats!
+Dialogue: 0,0:04:40.25,0:04:45.58,Q8,,0,0,0,,{\pos(716.8,64.8)}{\an7}WEAPON ARTS
+Dialogue: 0,0:04:40.25,0:04:45.58,Q9,,0,0,0,,{\pos(230.4,194.4)}{\an7}IAIDO SWORDSMANSHIP
+Dialogue: 0,0:04:40.25,0:04:45.58,Q9,,0,0,0,,{\pos(691.2,266.4)}{\an7}DUAL BLADES
+Dialogue: 0,0:04:40.25,0:04:45.58,Q9,,0,0,0,,{\pos(1011.2,345.6)}{\an7}GREATSWORDS
+Dialogue: 0,0:04:40.25,0:04:45.58,Q9,,0,0,0,,{\pos(179.2,396)}{\an7}SHIELDS
+Dialogue: 0,0:04:40.25,0:04:45.58,Q9,,0,0,0,,{\pos(576,446.4)}{\an7}COMET STRIKE
+Dialogue: 0,0:04:40.26,0:04:45.58,Q9,,0,0,0,,{\pos(998.4,518.4)}{\an7}DAGGERS
+Dialogue: 0,0:04:40.33,0:04:43.46,Q0,,0,0,0,,Normally, each person gets 50 points to use
+Dialogue: 0,0:04:43.46,0:04:46.00,Q0,,0,0,0,,on skills and magic and such.
+Dialogue: 0,0:04:45.58,0:04:46.25,Q10,,0,0,0,,{\pos(716.8,64.8)}{\an7}WEAPON ARTS
+Dialogue: 0,0:04:45.58,0:04:46.25,Q8,,0,0,0,,{\pos(230.4,194.4)}{\an7}IAIDO SWORDSMANSHIP
+Dialogue: 0,0:04:45.58,0:04:46.25,Q8,,0,0,0,,{\pos(691.2,266.4)}{\an7}DUAL BLADES
+Dialogue: 0,0:04:45.59,0:04:46.25,Q8,,0,0,0,,{\pos(1011.2,345.6)}{\an7}GREATSWORDS
+Dialogue: 0,0:04:45.59,0:04:46.25,Q8,,0,0,0,,{\pos(179.2,396)}{\an7}SHIELDS
+Dialogue: 0,0:04:45.59,0:04:46.25,Q8,,0,0,0,,{\pos(576,446.4)}{\an7}COMET STRIKE
+Dialogue: 0,0:04:45.59,0:04:46.25,Q8,,0,0,0,,{\pos(998.4,518.4)}{\an7}DAGGERS
+Dialogue: 0,0:04:46.42,0:04:50.25,Q0,,0,0,0,,But this was the old man's first time\Nroping in 43 people at once.
+Dialogue: 0,0:04:50.25,0:04:54.75,Q10,,0,0,0,,{\pos(294.4,172.8)}{\an7}SHIELD APTITUDE
+Dialogue: 0,0:04:50.25,0:04:54.75,Q10,,0,0,0,,{\pos(550.4,223.2)}{\an7}COMBAT APTITUDE
+Dialogue: 0,0:04:50.25,0:04:54.75,Q10,,0,0,0,,{\pos(243.2,273.6)}{\an7}BOW APTITUDE
+Dialogue: 0,0:04:50.25,0:04:54.75,Q10,,0,0,0,,{\pos(806.4,324)}{\an7}MAGIC APTITUDE
+Dialogue: 0,0:04:50.25,0:04:54.75,Q9,,0,0,0,,{\pos(140.8,374.4)}{\an7}DUMMY
+Dialogue: 0,0:04:50.25,0:04:54.75,Q9,,0,0,0,,{\pos(409.6,424.8)}{\an7}COMPANY COMMUNICATOR
+Dialogue: 0,0:04:50.26,0:04:54.75,Q9,,0,0,0,,{\pos(793.6,504)}{\an7}MASTER OF NONE
+Dialogue: 0,0:04:50.46,0:04:54.63,Q0,,0,0,0,,Apparently, the OP skills were first-come first-served,\Nand the rest were all crap.
+Dialogue: 0,0:04:55.50,0:04:58.25,Q0,,0,0,0,,Still, I figured I'd better take a good look.
+Dialogue: 0,0:04:59.25,0:05:06.13,Q11,,0,0,0,,{\pos(1075.2,64.8)}{\an7}POINT
+Dialogue: 0,0:04:59.25,0:05:06.13,Q11,,0,0,0,,{\pos(1036.8,115.2)}{\an7}ALLOCATION
+Dialogue: 0,0:04:59.25,0:05:06.13,Q11,,0,0,0,,{\pos(1049.6,165.6)}{\an7}FOR STATS
+Dialogue: 0,0:04:59.25,0:05:06.13,Q10,,0,0,0,,{\pos(384,230.4)}{\an7}YOU MAY ALLOCATE 1 POINT TO EACH STAT
+Dialogue: 0,0:04:59.25,0:05:06.13,Q10,,0,0,0,,{\pos(435.2,331.2)}{\an7}OR ROLL DICE (10P FOR 2 DICE)
+Dialogue: 0,0:04:59.38,0:05:00.92,Q0,,0,0,0,,Definitely not going for dice.
+Dialogue: 0,0:05:01.33,0:05:03.46,Q0,,0,0,0,,Even if I got two sixes, that'd only put me at 12.
+Dialogue: 0,0:05:03.75,0:05:06.00,Q0,,0,0,0,,What kind of moron would go for that?
+Dialogue: 0,0:05:06.13,0:05:15.42,Q12,,0,0,0,,{\pos(1036.8,115.2)}{\an7}EQUIPMENT
+Dialogue: 0,0:05:06.13,0:05:15.42,Q11,,0,0,0,,{\pos(1075.2,165.6)}{\an7}ITEMS
+Dialogue: 0,0:05:06.13,0:05:15.42,Q10,,0,0,0,,{\pos(320,57.6)}{\an7}PALADIN SET                                     GREAT SAGE SET
+Dialogue: 0,0:05:06.13,0:05:15.42,Q9,,0,0,0,,{\pos(281.6,151.2)}{\an7}VILLAGER A SET
+Dialogue: 0,0:05:06.13,0:05:15.42,Q10,,0,0,0,,{\pos(793.6,208.8)}{\an7}ALCHEMIST SET
+Dialogue: 0,0:05:06.13,0:05:15.42,Q9,,0,0,0,,{\pos(243.2,345.6)}{\an7}CONTACT LENSES
+Dialogue: 0,0:05:06.13,0:05:15.42,Q10,,0,0,0,,{\pos(742.4,396)}{\an7}BLACK KNIGHT SET
+Dialogue: 0,0:05:06.13,0:05:15.42,Q10,,0,0,0,,{\pos(230.4,496.8)}{\an7}RING                                   BERSERKER SET
+Dialogue: 0,0:05:06.13,0:05:15.42,Q10,,0,0,0,,{\pos(947.2,547.2)}{\an7}ANTIDOTE
+Dialogue: 0,0:05:06.21,0:05:09.13,Q0,,0,0,0,,All that's left is a "Villager A Set" and "Contact Lenses"?!
+Dialogue: 0,0:05:09.13,0:05:11.92,Q0,,0,0,0,,Who the heck is Villager A? Talk about lame!
+Dialogue: 0,0:05:12.17,0:05:15.25,Q0,,0,0,0,,I wanted to be a Paladin or a Great Sage or something!
+Dialogue: 0,0:05:15.42,0:05:24.67,Q11,,0,0,0,,{\pos(1024,57.6)}{\an7}MARTIAL ARTS
+Dialogue: 0,0:05:15.42,0:05:24.67,Q10,,0,0,0,,{\pos(819.2,43.2)}{\an7}DAGGERS
+Dialogue: 0,0:05:15.42,0:05:24.67,Q10,,0,0,0,,{\pos(486.4,93.6)}{\an7}COMET STRIKE
+Dialogue: 0,0:05:15.42,0:05:24.67,Q10,,0,0,0,,{\pos(281.6,144)}{\an7}SHIELDS
+Dialogue: 0,0:05:15.42,0:05:24.67,Q10,,0,0,0,,{\pos(793.6,194.4)}{\an7}DEADLY BLOWS
+Dialogue: 0,0:05:15.42,0:05:24.67,Q10,,0,0,0,,{\pos(512,244.8)}{\an7}SPEARS
+Dialogue: 0,0:05:15.42,0:05:24.67,Q13,,0,0,0,,{\pos(256,295.2)}{\an7}STAVES
+Dialogue: 0,0:05:15.42,0:05:24.67,Q10,,0,0,0,,{\pos(780.8,360)}{\an7}TWO-HANDED SWORDS
+Dialogue: 0,0:05:15.42,0:05:24.67,Q10,,0,0,0,,{\pos(409.6,410.4)}{\an7}ONE-HANDED SWORDS
+Dialogue: 0,0:05:15.43,0:05:24.67,Q10,,0,0,0,,{\pos(192,460.8)}{\an7}ARCHERY
+Dialogue: 0,0:05:15.50,0:05:18.42,Q0,,0,0,0,,"Staves"? A staff is basically just a stick!
+Dialogue: 0,0:05:18.50,0:05:19.92,Q0,,0,0,0,,Do you just hit things with sticks?
+Dialogue: 0,0:05:19.92,0:05:21.50,Q0,,0,0,0,,How do you survive an isekai like that?
+Dialogue: 0,0:05:21.50,0:05:24.38,Q0,,0,0,0,,Gimme a sword or a spear or something!
+Dialogue: 0,0:05:24.67,0:05:33.29,Q14,,0,0,0,,{\pos(1113.6,50.4)}{\an7}SKILL
+Dialogue: 0,0:05:24.67,0:05:33.29,Q15,,0,0,0,,{\pos(307.2,100.8)}{\an7}EXP BOOST
+Dialogue: 0,0:05:24.67,0:05:33.29,Q15,,0,0,0,,{\pos(179.2,288)}{\an7}PILLAGE
+Dialogue: 0,0:05:24.67,0:05:33.29,Q15,,0,0,0,,{\pos(640,417.6)}{\an7}HEIGHTENED INTUITION          SWORDSMANSHIP
+Dialogue: 0,0:05:24.67,0:05:33.29,Q15,,0,0,0,,{\pos(870.4,57.6)}{\an7}CLAIRVOYANCE
+Dialogue: 0,0:05:24.67,0:05:33.29,Q16,,0,0,0,,{\pos(396.8,266.4)}{\an7}WELL-BEING                        WALKING
+Dialogue: 0,0:05:24.67,0:05:33.29,Q16,,0,0,0,,{\pos(217.6,403.2)}{\an7}CALISTHENICS             SENSITIVITY
+Dialogue: 0,0:05:24.67,0:05:33.29,Q15,,0,0,0,,{\pos(960,237.6)}{\an7}SORCERY
+Dialogue: 0,0:05:24.75,0:05:27.58,Q0,,0,0,0,,How are "Well-being" and "Walking" even skills?
+Dialogue: 0,0:05:27.58,0:05:28.83,Q0,,0,0,0,,Is there nothing else?!
+Dialogue: 0,0:05:29.08,0:05:32.25,Q0,,0,0,0,,I wanted something OP like Pillaging or Clairvoyance!
+Dialogue: 0,0:05:33.29,0:05:42.29,Q11,,0,0,0,,{\pos(1100.8,50.4)}{\an7}MAGIC
+Dialogue: 0,0:05:33.29,0:05:42.29,Q10,,0,0,0,,{\pos(281.6,100.8)}{\an7}GRAND MAGIC                    FLAME         LIGHTNING            FIRE
+Dialogue: 0,0:05:33.29,0:05:42.29,Q10,,0,0,0,,{\pos(217.6,201.6)}{\an7}HEALING
+Dialogue: 0,0:05:33.29,0:05:42.29,Q10,,0,0,0,,{\pos(704,352.8)}{\an7}ELEMENTAL ASSIGNMENT
+Dialogue: 0,0:05:33.30,0:05:42.29,Q10,,0,0,0,,{\pos(128,511.2)}{\an7}ELEMENTAL BOOST                    DEATH                       CHARM
+Dialogue: 0,0:05:33.30,0:05:42.29,Q13,,0,0,0,,{\pos(422.4,201.6)}{\an7}TEMPERATURE             PACKING
+Dialogue: 0,0:05:33.30,0:05:42.29,Q13,,0,0,0,,{\pos(179.2,352.8)}{\an7}WEIGHT                      MOVEMENT
+Dialogue: 0,0:05:33.30,0:05:42.29,Q10,,0,0,0,,{\pos(921.6,223.2)}{\an7}DARK
+Dialogue: 0,0:05:33.54,0:05:36.17,Q0,,0,0,0,,Of course the go-to Grand Magic is gone.
+Dialogue: 0,0:05:36.83,0:05:39.08,Q0,,0,0,0,,No idea what the stuff left even does.
+Dialogue: 0,0:05:39.38,0:05:42.17,Q0,,0,0,0,,How can there even be crap magic?
+Dialogue: 0,0:05:42.29,0:05:50.29,Q11,,0,0,0,,{\pos(1088,36)}{\an7}SPECIAL
+Dialogue: 0,0:05:42.29,0:05:50.29,Q10,,0,0,0,,{\pos(192,86.4)}{\an7}SHIELD APTITUDE
+Dialogue: 0,0:05:42.29,0:05:50.29,Q10,,0,0,0,,{\pos(537.6,136.8)}{\an7}COMBAT APTITUDE
+Dialogue: 0,0:05:42.29,0:05:50.29,Q10,,0,0,0,,{\pos(896,194.4)}{\an7}MAGIC APTITUDE
+Dialogue: 0,0:05:42.30,0:05:50.29,Q10,,0,0,0,,{\pos(204.8,244.8)}{\an7}BOW APTITUDE
+Dialogue: 0,0:05:42.30,0:05:50.29,Q13,,0,0,0,,{\pos(473.6,302.4)}{\an7}COMPANY COMMUNICATOR
+Dialogue: 0,0:05:42.30,0:05:50.29,Q13,,0,0,0,,{\pos(908.8,374.4)}{\an7}MASTER OF NONE
+Dialogue: 0,0:05:42.30,0:05:50.29,Q13,,0,0,0,,{\pos(281.6,424.8)}{\an7}DUMMY
+Dialogue: 0,0:05:42.46,0:05:44.38,Q0,,0,0,0,,What does "Company Communicator" even do?!
+Dialogue: 0,0:05:44.38,0:05:46.50,Q0,,0,0,0,,Am I supposed to be an office worker, here?
+Dialogue: 0,0:05:46.83,0:05:50.17,Q0,,0,0,0,,And how can "Dummy" be anything but bad?
+Dialogue: 0,0:05:50.29,0:05:56.92,Q11,,0,0,0,,{\pos(1113.6,50.4)}{\an7}TITLE
+Dialogue: 0,0:05:50.29,0:05:56.92,Q10,,0,0,0,,{\pos(345.6,100.8)}{\an7}SAINT                                       FIEND SLAYER
+Dialogue: 0,0:05:50.29,0:05:56.92,Q13,,0,0,0,,{\pos(819.2,165.6)}{\an7} NEET
+Dialogue: 0,0:05:50.29,0:05:56.92,Q13,,0,0,0,,{\pos(307.2,216)}{\an7}SHUT-IN
+Dialogue: 0,0:05:50.30,0:05:56.92,Q10,,0,0,0,,{\pos(102.4,482.4)}{\an7}ILLUSIONIST                         TACTICIAN                               GUARDIAN
+Dialogue: 0,0:05:50.50,0:05:53.00,Q0,,0,0,0,,Now shut-ins and NEETs?
+Dialogue: 0,0:05:53.29,0:05:56.79,Q0,,0,0,0,,How are slackers gonna take down monsters?
+Dialogue: 0,0:05:56.92,0:06:00.88,Q17,,0,0,0,,{\pos(358.4,180)}{\an7}HEALTH
+Dialogue: 0,0:05:56.92,0:06:00.88,Q17,,0,0,0,,{\pos(537.6,230.4)}{\an7}WALKING
+Dialogue: 0,0:05:56.92,0:06:00.88,Q17,,0,0,0,,{\pos(102.4,280.8)}{\an7}CALISTHENICS
+Dialogue: 0,0:05:56.92,0:06:00.88,Q17,,0,0,0,,{\pos(307.2,331.2)}{\an7}SENSITIVITY
+Dialogue: 0,0:05:57.00,0:05:59.00,Q0,,0,0,0,,Wait. That's it?
+Dialogue: 0,0:06:00.96,0:06:03.71,Q0,,0,0,0,,There's crap, and then there's this.
+Dialogue: 0,0:06:03.71,0:06:06.17,Q0,,0,0,0,,WHAT'S THE DEAL, OLD MAN?!
+Dialogue: 0,0:06:06.29,0:06:09.17,Q0,,0,0,0,,Skills like these won't even get me through the first town!
+Dialogue: 0,0:06:09.17,0:06:11.71,Q0,,0,0,0,,You gotta have better skills to choose from!
+Dialogue: 0,0:06:11.71,0:06:14.25,Q0,,0,0,0,,Can you not even estimate\Nhow many people you're summoning?
+Dialogue: 0,0:06:14.25,0:06:18.96,Q0,,0,0,0,,And you call yourself a god?\NAre you outta your mind? Seriously, are you?!
+Dialogue: 0,0:06:19.25,0:06:20.88,Q0,,0,0,0,,By then, the old man was sick of my complaints.
+Dialogue: 0,0:06:21.21,0:06:27.29,Q0,,0,0,0,,"Fine, take all the skills left! Now begone!" he said.
+Dialogue: 0,0:06:33.04,0:06:35.38,Q18,,0,0,0,,{\pos(627.2,172.8)}{\an7}TEMPERATURE   PACKING
+Dialogue: 0,0:06:33.04,0:06:35.38,Q18,,0,0,0,,{\pos(601.6,223.2)}{\an7}WEIGHT   MOVEMENT
+Dialogue: 0,0:06:33.04,0:06:35.38,Q18,,0,0,0,,{\pos(947.2,273.6)}{\an7}COMPANY COMMUNICATOR
+Dialogue: 0,0:06:33.04,0:06:35.38,Q18,,0,0,0,,{\pos(1024,338.4)}{\an7}DUMMY
+Dialogue: 0,0:06:33.05,0:06:35.38,Q18,,0,0,0,,{\pos(204.8,396)}{\an7}WELL-BEING   WALKING
+Dialogue: 0,0:06:33.05,0:06:35.38,Q18,,0,0,0,,{\pos(102.4,475.2)}{\an7}CALISTHENICS SENSITIVITY
+Dialogue: 0,0:06:35.88,0:06:38.75,Q0,,0,0,0,,So I wound up with all the leftover crap,
+Dialogue: 0,0:06:38.75,0:06:41.58,Q0,,0,0,0,,and was basically guaranteed nightmare mode.
+Dialogue: 0,0:06:48.96,0:06:53.96,Q0,,0,0,0,,He seriously teleported me...\NHow am I supposed to handle an isekai outta nowhere?
+Dialogue: 0,0:06:54.33,0:06:55.96,Q0,,0,0,0,,I wasn't ready for this...
+Dialogue: 0,0:06:55.96,0:06:58.58,Q0,,0,0,0,,Then again, I guess no one ever is.
+Dialogue: 0,0:06:58.58,0:06:59.13,Q0,,0,0,0,,Huh?
+Dialogue: 0,0:06:59.58,0:07:01.08,Q0,,0,0,0,,I guess this must be...
+Dialogue: 0,0:07:03.13,0:07:04.75,Q0,,0,0,0,,...the Villager A Set.
+Dialogue: 0,0:07:05.96,0:07:09.38,Q0,,0,0,0,,Wait, can this thing hold infinite items?
+Dialogue: 0,0:07:09.50,0:07:10.58,Q19,,0,0,0,,{\pos(102.4,57.6)}{\an7}Contacts                                                  Cloak                                          Leather Boots
+Dialogue: 0,0:07:09.50,0:07:10.58,Q19,,0,0,0,,{\pos(102.4,316.8)}{\an7}Wooden Stick
+Dialogue: 0,0:07:10.58,0:07:11.83,Q19,,0,0,0,,{\pos(102.4,57.6)}{\an7}Wooden Stick
+Dialogue: 0,0:07:10.58,0:07:11.83,Q19,,0,0,0,,{\pos(460.8,432)}{\an7}Ring of the Dead Soul
+Dialogue: 0,0:07:11.83,0:07:13.04,Q19,,0,0,0,,{\pos(460.8,180)}{\an7}Ring of the Dead Soul
+Dialogue: 0,0:07:11.83,0:07:13.04,Q19,,0,0,0,,{\pos(729.6,547.2)}{\an7}Jewel of Knowledge
+Dialogue: 0,0:07:13.04,0:07:14.00,Q19,,0,0,0,,{\pos(729.6,280.8)}{\an7}Jewel of Knowledge
+Dialogue: 0,0:07:13.04,0:07:14.00,Q19,,0,0,0,,{\pos(307.2,518.4)}{\an7}Villager A's Diary
+Dialogue: 0,0:07:14.08,0:07:17.33,Q0,,0,0,0,,Still looks like a bunch of leftover crap, but...
+Dialogue: 0,0:07:23.42,0:07:24.88,Q0,,0,0,0,,Not half bad!
+Dialogue: 0,0:07:24.88,0:07:27.54,Q0,,0,0,0,,So! Now that I look good, how are my stats?
+Dialogue: 0,0:07:27.75,0:07:29.38,Q0,,0,0,0,,Lemme just open "Check Stats," and...
+Dialogue: 0,0:07:29.63,0:07:32.75,Q20,,0,0,0,,{\pos(473.6,439.2)}{\an7}Please roll the dice
+Dialogue: 0,0:07:30.71,0:07:32.50,Q0,,0,0,0,,What? Why dice?
+Dialogue: 0,0:07:32.96,0:07:34.33,Q21,,0,0,0,,{\pos(409.6,223.2)}{\an7}YOU MAY ALLOCATE 1 POINT TO EACH STAT
+Dialogue: 0,0:07:32.96,0:07:34.33,Q21,,0,0,0,,{\pos(460.8,331.2)}{\an7}OR ROLL DICE (10P FOR 2 DICE)
+Dialogue: 0,0:07:34.42,0:07:37.42,Q0,,0,0,0,,That old fart really stuck me with EVERYTHING!
+Dialogue: 0,0:07:37.63,0:07:39.33,Q0,,0,0,0,,Was he cleaning out stock or something?
+Dialogue: 0,0:07:44.38,0:07:46.50,Q0,,0,0,0,,What the heck?! What does "M" mean?
+Dialogue: 0,0:07:46.50,0:07:48.08,Q0,,0,0,0,,Please tell me it's not M for minus!
+Dialogue: 0,0:07:48.54,0:07:51.13,Q0,,0,0,0,,Or maybe M for masochism?
+Dialogue: 0,0:07:50.96,0:07:53.21,Q22,,0,0,0,,{\pos(473.6,187.2)}{\an7}Certainly not that
+Dialogue: 0,0:07:51.96,0:07:53.21,Q0,,0,0,0,,Nice retort!
+Dialogue: 0,0:07:53.21,0:07:54.71,Q22,,0,0,0,,{\pos(307.2,194.4)}{\an7}Which stat do you wish to allocate to?
+Dialogue: 0,0:07:55.21,0:07:56.50,Q0,,0,0,0,,Uhh...
+Dialogue: 0,0:07:56.50,0:07:59.21,Q0,,0,0,0,,Doesn't look like I'm gonna pull through\Nwith any other strengths, so...
+Dialogue: 0,0:08:00.00,0:08:01.08,Q0,,0,0,0,,Put it on Luck.
+Dialogue: 0,0:08:01.00,0:08:02.38,Q22,,0,0,0,,{\pos(217.6,172.8)}{\an7}Points allocated.
+Dialogue: 0,0:08:01.00,0:08:02.38,Q22,,0,0,0,,{\pos(217.6,295.2)}{\an7}Which stat do you wish
+Dialogue: 0,0:08:01.00,0:08:02.38,Q22,,0,0,0,,{\pos(217.6,403.2)}{\an7}to allocate to next?
+Dialogue: 0,0:08:02.71,0:08:06.21,Q0,,0,0,0,,Forget worrying about balance! Time to go all in!
+Dialogue: 0,0:08:06.88,0:08:09.63,Q22,,0,0,0,,{\pos(102.4,295.2)}{\an7}Points allocated to Luck.
+Dialogue: 0,0:08:06.88,0:08:09.63,Q22,,0,0,0,,{\pos(102.4,410.4)}{\an7}Now calculating stats
+Dialogue: 0,0:08:14.25,0:08:17.25,Q23,,0,0,0,,{\pos(332.8,158.4)}{\an7}SPECIES:
+Dialogue: 0,0:08:14.25,0:08:17.25,Q23,,0,0,0,,{\pos(332.8,208.8)}{\an7}HUMAN
+Dialogue: 0,0:08:14.25,0:08:17.25,Q23,,0,0,0,,{\pos(256,504)}{\an7}MARTIAL ARTS:    CANE TECHNIQUE
+Dialogue: 0,0:08:14.25,0:08:17.25,Q23,,0,0,0,,{\pos(256,554.4)}{\an7}MAGIC:          TEMPERATURE         MOVE                 WEIGHT           PACKING
+Dialogue: 0,0:08:14.25,0:08:17.25,Q23,,0,0,0,,{\pos(268.8,604.8)}{\an7}SKILLS:              HEALTH           SENSITIVITY       CALISTHENICS     WALKING
+Dialogue: 0,0:08:17.67,0:08:21.83,Q0,,0,0,0,,My Luck skill is off the charts. So M stood for Max?!
+Dialogue: 0,0:08:22.25,0:08:23.88,Q11,,0,0,0,,{\pos(217.6,57.6)}{\an7}RACE
+Dialogue: 0,0:08:22.25,0:08:23.88,Q11,,0,0,0,,{\pos(204.8,180)}{\an7}HUMAN
+Dialogue: 0,0:08:22.63,0:08:25.83,Q0,,0,0,0,,The rest is still all crap.
+Dialogue: 0,0:08:23.88,0:08:29.25,Q11,,0,0,0,,{\pos(115.2,122.4)}{\an7}MARTIAL ARTS:     CANE TECHNIQUE
+Dialogue: 0,0:08:23.88,0:08:29.25,Q11,,0,0,0,,{\pos(153.6,216)}{\an7}MAGIC:        TEMPERATURE      MOVE              WEIGHT           PACKING
+Dialogue: 0,0:08:23.88,0:08:29.25,Q11,,0,0,0,,{\pos(153.6,302.4)}{\an7}SKILLS:        HEALTH             SENSITIVITY        CALISTHENICS      WALKING
+Dialogue: 0,0:08:23.88,0:08:29.25,Q11,,0,0,0,,{\pos(153.6,396)}{\an7}TITLE:                 SHUT-IN                       NEET                 LONER
+Dialogue: 0,0:08:23.88,0:08:29.25,Q11,,0,0,0,,{\pos(217.6,475.2)}{\an7}COMPANY COMMUNICATOR   MASTER OF NONE        DUMMY
+Dialogue: 0,0:08:23.88,0:08:29.25,Q11,,0,0,0,,{\pos(102.4,554.4)}{\an7}EQUIPMENT: CLOTH BAG
+Dialogue: 0,0:08:26.67,0:08:28.88,Q0,,0,0,0,,Wait, there are two extra.
+Dialogue: 0,0:08:29.25,0:08:35.25,Q24,,0,0,0,,{\pos(217.6,57.6)}{\an7}Subjugate                                                                 Loner
+Dialogue: 0,0:08:29.25,0:08:35.25,Q25,,0,0,0,,{\pos(128,136.8)}{\an7}SUBJUGATE OTHERS TO FOLLOW YOUR COMMAND                                                            MUST SURVIVE ALONE.
+Dialogue: 0,0:08:29.25,0:08:35.25,Q25,,0,0,0,,{\pos(857.6,187.2)}{\an7}CANNOT FORM PARTY.
+Dialogue: 0,0:08:29.25,0:08:35.25,Q26,,0,0,0,,{\pos(537.6,259.2)}{\an7}Additional Ability
+Dialogue: 0,0:08:29.25,0:08:35.25,Q25,,0,0,0,,{\pos(716.8,352.8)}{\an7}IF YOU WANT
+Dialogue: 0,0:08:29.25,0:08:35.25,Q25,,0,0,0,,{\pos(691.2,403.2)}{\an7}TO MAKE FRIENDS
+Dialogue: 0,0:08:29.33,0:08:31.04,Q0,,0,0,0,,Is that because I got pulled in alone?
+Dialogue: 0,0:08:31.50,0:08:35.13,Q0,,0,0,0,,Apparently, when you're a loner\Nyou can use the subjugate skill.
+Dialogue: 0,0:08:35.33,0:08:37.25,Q0,,0,0,0,,Stuck alone in another world, huh?
+Dialogue: 0,0:08:37.25,0:08:39.79,Q0,,0,0,0,,There go my chances of an isekai harem.
+Dialogue: 0,0:08:40.33,0:08:42.58,Q0,,0,0,0,,Why's no one else around, though?
+Dialogue: 0,0:08:42.79,0:08:45.63,Q0,,0,0,0,,Everyone shoulda been sucked in here with me.
+Dialogue: 0,0:08:46.88,0:08:50.13,Q0,,0,0,0,,Ah, who cares? Can't form a party anyway!
+Dialogue: 0,0:08:51.63,0:08:55.29,Q0,,0,0,0,,Only thing I gotta worry about now\Nis setting up somewhere safe.
+Dialogue: 0,0:08:55.83,0:08:58.04,Q0,,0,0,0,,Then I just need to find some food.
+Dialogue: 0,0:08:58.42,0:09:01.25,Q0,,0,0,0,,Time to make myself a home!
+Dialogue: 0,0:09:08.33,0:09:11.54,Q0,,0,0,0,,Hard to see anything stuck in these woods, though.
+Dialogue: 0,0:09:15.46,0:09:17.92,Q0,,0,0,0,,If a monster rolled up on me now, I'd be done for.
+Dialogue: 0,0:09:17.92,0:09:20.71,Q0,,0,0,0,,Dunno if my well-honed fake sleeping ability\Nwould do me any good.
+Dialogue: 0,0:09:21.42,0:09:24.79,Q0,,0,0,0,,Oh, yeah! I still haven't tried those contacts.
+Dialogue: 0,0:09:29.04,0:09:30.42,Q0,,0,0,0,,Whoa!
+Dialogue: 0,0:09:31.08,0:09:33.58,Q27,,0,0,0,,{\pos(1113.6,158.4)}{\an7}Nuts
+Dialogue: 0,0:09:31.96,0:09:34.42,Q0,,0,0,0,,These don't just let me see things!
+Dialogue: 0,0:09:32.08,0:09:33.58,Q27,,0,0,0,,{\pos(806.4,496.8)}{\an7}Phsyical Strength Mushroom
+Dialogue: 0,0:09:32.58,0:09:33.58,Q27,,0,0,0,,{\pos(601.6,360)}{\an7}Nuts
+Dialogue: 0,0:09:33.58,0:09:34.83,Q27,,0,0,0,,{\pos(166.4,273.6)}{\an7}Medicinal Herbs
+Dialogue: 0,0:09:33.58,0:09:34.83,Q27,,0,0,0,,{\pos(691.2,367.2)}{\an7}Nuts
+Dialogue: 0,0:09:34.09,0:09:34.83,Q27,,0,0,0,,{\pos(140.8,446.4)}{\an7}Potenshroom
+Dialogue: 0,0:09:34.92,0:09:36.21,Q0,,0,0,0,,They let me see EVERYTHING!
+Dialogue: 0,0:09:35.21,0:09:37.83,Q27,,0,0,0,,{\pos(140.8,194.4)}{\an7}Antidote
+Dialogue: 0,0:09:35.58,0:09:37.83,Q27,,0,0,0,,{\pos(908.8,144)}{\an7}Potion
+Dialogue: 0,0:09:36.33,0:09:37.54,Q0,,0,0,0,,Clear as day!
+Dialogue: 0,0:09:37.92,0:09:40.13,Q0,,0,0,0,,How do these even work?
+Dialogue: 0,0:09:40.92,0:09:43.88,Q0,,0,0,0,,These contacts give me the Appraisal skill?
+Dialogue: 0,0:09:43.88,0:09:46.63,Q0,,0,0,0,,This brings a lot into focus!
+Dialogue: 0,0:09:44.08,0:09:46.83,Q28,,0,0,0,,{\pos(320,57.6)}{\an7}CONTACTS
+Dialogue: 0,0:09:44.08,0:09:46.83,Q28,,0,0,0,,{\pos(294.4,237.6)}{\an7}APPRAISAL: ABILITY TO JUDGE ALL VISIBLE THINGS
+Dialogue: 0,0:09:44.09,0:09:46.83,Q29,,0,0,0,,{\pos(652.8,453.6)}{\an7}Potenshroom
+Dialogue: 0,0:09:44.09,0:09:46.83,Q30,,0,0,0,,{\pos(563.2,504)}{\an7}Edible. Boosts potential capacities.
+Dialogue: 0,0:09:48.88,0:09:52.04,Q0,,0,0,0,,My Appraisal skill opened up a whole new world.
+Dialogue: 0,0:09:54.71,0:09:57.63,Q27,,0,0,0,,{\pos(537.6,388.8)}{\an7}Potenshroom
+Dialogue: 0,0:09:55.67,0:09:57.17,Q0,,0,0,0,,And made things more fun!
+Dialogue: 0,0:09:56.13,0:09:57.17,Q31,,0,0,0,,Whoa!
+Dialogue: 0,0:09:57.63,0:10:00.46,Q32,,0,0,0,,{\pos(627.2,36)}{\an7}Bird
+Dialogue: 0,0:09:57.63,0:10:00.46,Q32,,0,0,0,,{\pos(1126.4,86.4)}{\an7}Nuts
+Dialogue: 0,0:09:57.63,0:10:00.46,Q32,,0,0,0,,{\pos(1011.2,367.2)}{\an7}Medicinal Herb
+Dialogue: 0,0:09:57.63,0:10:00.46,Q32,,0,0,0,,{\pos(396.8,439.2)}{\an7}Potenshroom
+Dialogue: 0,0:10:00.46,0:10:04.25,Q32,,0,0,0,,{\pos(307.2,28.8)}{\an7}Bird
+Dialogue: 0,0:10:00.46,0:10:04.25,Q32,,0,0,0,,{\pos(102.4,79.2)}{\an7}Antidote Herb
+Dialogue: 0,0:10:00.46,0:10:04.25,Q32,,0,0,0,,{\pos(1024,129.6)}{\an7}Medicinal Herb
+Dialogue: 0,0:10:00.46,0:10:04.25,Q32,,0,0,0,,{\pos(550.4,180)}{\an7}Bird
+Dialogue: 0,0:10:00.46,0:10:04.25,Q32,,0,0,0,,{\pos(883.2,230.4)}{\an7}Nuts
+Dialogue: 0,0:10:00.46,0:10:04.25,Q32,,0,0,0,,{\pos(998.4,403.2)}{\an7}Potenshroom
+Dialogue: 0,0:10:00.46,0:10:04.25,Q32,,0,0,0,,{\pos(729.6,468)}{\an7}Medicinal Herb
+Dialogue: 0,0:10:00.47,0:10:04.25,Q32,,0,0,0,,{\pos(256,518.4)}{\an7}Potenshroom
+Dialogue: 0,0:10:04.42,0:10:05.71,Q0,,0,0,0,,Wow, look at these!
+Dialogue: 0,0:10:07.71,0:10:10.46,Q33,,0,0,0,,{\pos(179.2,57.6)}{\an7}Potenshroom
+Dialogue: 0,0:10:07.71,0:10:10.46,Q34,,0,0,0,,{\pos(128,201.6)}{\an7}EDIBLE.     BOOSTS POTENTIAL CAPACITIES.
+Dialogue: 0,0:10:08.71,0:10:10.46,Q0,,0,0,0,,Edible mushrooms!
+Dialogue: 0,0:10:11.04,0:10:15.00,Q0,,0,0,0,,My bag could hold everything I found,\Nand I had potions packed in already.
+Dialogue: 0,0:10:15.42,0:10:18.63,Q0,,0,0,0,,I really should apologize\Nfor talking down the Villager A Set.
+Dialogue: 0,0:10:20.25,0:10:22.96,Q0,,0,0,0,,I feel like I can find anything out here...
+Dialogue: 0,0:10:22.96,0:10:23.79,Q0,,0,0,0,,Hmm?
+Dialogue: 0,0:10:46.67,0:10:48.04,Q0,,0,0,0,,Delish!
+Dialogue: 0,0:10:49.29,0:10:49.96,Q0,,0,0,0,,Huh?
+Dialogue: 0,0:11:01.42,0:11:02.58,Q0,,0,0,0,,A cave?
+Dialogue: 0,0:11:06.50,0:11:08.33,Q0,,0,0,0,,Anyone home?
+Dialogue: 0,0:11:11.54,0:11:15.38,Q0,,0,0,0,,Sorry for intruding if this is your home, monsters.
+Dialogue: 0,0:11:15.38,0:11:17.00,Q0,,0,0,0,,Really hope it's not, though!
+Dialogue: 0,0:11:29.71,0:11:32.04,Q0,,0,0,0,,Nice and spacious.
+Dialogue: 0,0:11:32.67,0:11:41.17,Q32,,0,0,0,,{\pos(1062.4,7.2)}{\an7}Magic Tent
+Dialogue: 0,0:11:32.67,0:11:41.17,Q35,,0,0,0,,{\pos(755.2,57.6)}{\an7}CAN BE DEPLOYED OR PACKED UP USING MAGIC.
+Dialogue: 0,0:11:32.67,0:11:41.17,Q35,,0,0,0,,{\pos(908.8,108)}{\an7}REMAINS ROOM TEMPERATURE.
+Dialogue: 0,0:11:32.67,0:11:41.17,Q35,,0,0,0,,{\pos(896,158.4)}{\an7}WARDS OFF BUGS AND MONSTERS
+Dialogue: 0,0:11:32.67,0:11:41.17,Q32,,0,0,0,,{\pos(832,388.8)}{\an7}Magic Lantern
+Dialogue: 0,0:11:32.67,0:11:41.17,Q35,,0,0,0,,{\pos(793.6,439.2)}{\an7}CAN BE LIT, SET TO FLASH,
+Dialogue: 0,0:11:32.67,0:11:41.17,Q35,,0,0,0,,{\pos(806.4,489.6)}{\an7}OR EXTINGUISHED USING MAGIC.
+Dialogue: 0,0:11:32.67,0:11:41.17,Q35,,0,0,0,,{\pos(806.4,540)}{\an7}WARDS OFF BUGS AND MONSTERS.
+Dialogue: 0,0:11:33.54,0:11:36.21,Q0,,0,0,0,,Got a tent and a lamp in my bag, already.
+Dialogue: 0,0:11:36.58,0:11:39.71,Q0,,0,0,0,,Already feelin' like settling in.
+Dialogue: 0,0:11:42.29,0:11:44.46,Q0,,0,0,0,,Gathered up some wood and leaves.
+Dialogue: 0,0:11:44.46,0:11:46.92,Q0,,0,0,0,,Now to just use my Temperature magic and...
+Dialogue: 0,0:11:47.92,0:11:50.29,Q0,,0,0,0,,That should keep the beasts away.
+Dialogue: 0,0:11:51.21,0:11:53.88,Q0,,0,0,0,,This leftover magic isn't so bad!
+Dialogue: 0,0:11:58.00,0:12:00.71,Q0,,0,0,0,,Lemme just check my stats before I pass out.
+Dialogue: 0,0:12:01.08,0:12:04.58,Q19,,0,0,0,,{\pos(268.8,64.8)}{\an7}MAGIC
+Dialogue: 0,0:12:01.08,0:12:04.58,Q19,,0,0,0,,{\pos(102.4,115.2)}{\an7}Temperature   Movement   Weight
+Dialogue: 0,0:12:01.09,0:12:04.58,Q19,,0,0,0,,{\pos(102.4,165.6)}{\an7}Packing        Fire Magic
+Dialogue: 0,0:12:01.46,0:12:04.96,Q0,,0,0,0,,Nice, my Temperature skill leveled up\Nand I got "Fire Magic".
+Dialogue: 0,0:12:04.58,0:12:08.96,Q19,,0,0,0,,{\pos(268.8,7.2)}{\an7}MAGIC
+Dialogue: 0,0:12:04.58,0:12:08.96,Q19,,0,0,0,,{\pos(102.4,57.6)}{\an7}Temperature   Movement   Weight
+Dialogue: 0,0:12:04.59,0:12:08.96,Q19,,0,0,0,,{\pos(102.4,108)}{\an7}Packing        Fire Magic
+Dialogue: 0,0:12:04.59,0:12:08.96,Q19,,0,0,0,,{\pos(947.2,158.4)}{\an7}SKILLS
+Dialogue: 0,0:12:04.59,0:12:08.96,Q19,,0,0,0,,{\pos(780.8,208.8)}{\an7}Well-Being      Sensitivity       Calisthenics
+Dialogue: 0,0:12:04.59,0:12:08.96,Q19,,0,0,0,,{\pos(768,259.2)}{\an7}Walking           Subjugation         Appraisal
+Dialogue: 0,0:12:04.59,0:12:08.96,Q19,,0,0,0,,{\pos(742.4,309.6)}{\an7}Clairvoyance    Perception    Enemy Detection
+Dialogue: 0,0:12:05.29,0:12:08.83,Q0,,0,0,0,,Got Clairvoyance, Perception,\Nand "Enemy Detection", too.
+Dialogue: 0,0:12:11.83,0:12:15.17,Q0,,0,0,0,,I did make sure there were no baddies around...
+Dialogue: 0,0:12:16.13,0:12:19.33,Q0,,0,0,0,,But what if they show up...?
+Dialogue: 0,0:12:19.83,0:12:23.88,Q0,,0,0,0,,All I can do is hit them with a stick...
+Dialogue: 0,0:12:24.58,0:12:29.83,Q0,,0,0,0,,And just like that I finished my first day\Nas a loner in another world.
+Dialogue: 0,0:12:35.29,0:12:37.08,Q11,,0,0,0,,{\pos(102.4,115.2)}{\an7}DAY 2
+Dialogue: 0,0:12:37.17,0:12:39.88,Q0,,0,0,0,,Whew, made it through the night no problem.
+Dialogue: 0,0:12:40.33,0:12:42.75,Q0,,0,0,0,,My items got a bonus monster repellent effect.
+Dialogue: 0,0:12:42.92,0:12:46.21,Q0,,0,0,0,,All thanks to that "Shut-in" title I got.
+Dialogue: 0,0:12:46.33,0:12:47.63,Q0,,0,0,0,,Nice going, shut-ins!
+Dialogue: 0,0:12:46.42,0:12:48.17,Q11,,0,0,0,,{\pos(166.4,72)}{\an7}SHUT-IN:
+Dialogue: 0,0:12:46.42,0:12:48.17,Q11,,0,0,0,,{\pos(128,158.4)}{\an7}SHUT SELF IN
+Dialogue: 0,0:12:46.42,0:12:48.17,Q11,,0,0,0,,{\pos(102.4,216)}{\an7}PROTECTS LIVING SPACE.
+Dialogue: 0,0:12:50.29,0:12:52.75,Q0,,0,0,0,,My stomach's not fairing so well, though.
+Dialogue: 0,0:12:53.21,0:12:57.04,Q0,,0,0,0,,Time to light a fire with my new magic.
+Dialogue: 0,0:13:01.67,0:13:05.79,Q0,,0,0,0,,And mix the mushrooms I gathered\Nwith the cured meat in my bag.
+Dialogue: 0,0:13:07.04,0:13:09.42,Q0,,0,0,0,,Add a little flavor, aaand...
+Dialogue: 0,0:13:12.29,0:13:14.04,Q0,,0,0,0,,Breakfast is served!
+Dialogue: 0,0:13:17.88,0:13:20.96,Q0,,0,0,0,,Delish! Gotta hand it to myself!
+Dialogue: 0,0:13:23.00,0:13:29.83,Q0,,0,0,0,,Didn't expect to have a pan and a knife.\NThe Villager A Set is doing wonders.
+Dialogue: 0,0:13:30.79,0:13:33.67,Q0,,0,0,0,,Did this A guy really live in a village, though?
+Dialogue: 0,0:13:33.79,0:13:36.21,Q0,,0,0,0,,He's more like some wilderness survivor.
+Dialogue: 0,0:13:37.04,0:13:41.29,Q0,,0,0,0,,Forget that, though.\NGotta figure out where I go from here.
+Dialogue: 0,0:13:45.92,0:13:48.46,Q0,,0,0,0,,That cave should work as a home for now.
+Dialogue: 0,0:13:48.79,0:13:52.08,Q0,,0,0,0,,Next up is finding food and working on security.
+Dialogue: 0,0:13:53.96,0:13:55.58,Q27,,0,0,0,,{\pos(128,144)}{\an7}Stamina Caps
+Dialogue: 0,0:13:55.58,0:13:59.04,Q27,,0,0,0,,{\pos(742.4,554.4)}{\an7}Medicinal Herb
+Dialogue: 0,0:13:59.33,0:14:01.46,Q0,,0,0,0,,The real problem will be monsters...
+Dialogue: 0,0:14:02.54,0:14:04.54,Q36,,0,0,0,,{\pos(819.2,100.8)}{\an7}PERCEPTION
+Dialogue: 0,0:14:12.63,0:14:14.54,Q0,,0,0,0,,The time's come, huh?
+Dialogue: 0,0:14:14.88,0:14:17.04,Q0,,0,0,0,,Not one, but two goblins.
+Dialogue: 0,0:14:17.33,0:14:23.33,Q11,,0,0,0,,{\pos(128,93.6)}{\an7}GOBLIN B
+Dialogue: 0,0:14:17.33,0:14:23.33,Q11,,0,0,0,,{\pos(1011.2,374.4)}{\an7}GOBLIN A
+Dialogue: 0,0:14:20.50,0:14:23.42,Q0,,0,0,0,,They should be pushover mobs,\Nbut those are some high stats!
+Dialogue: 0,0:14:23.75,0:14:24.96,Q0,,0,0,0,,Can I win this?
+Dialogue: 0,0:14:25.88,0:14:29.63,Q0,,0,0,0,,I mean, out here I'm gonna have to fight eventually.
+Dialogue: 0,0:14:30.00,0:14:31.13,Q0,,0,0,0,,This could be my chance.
+Dialogue: 0,0:14:31.46,0:14:33.42,Q0,,0,0,0,,Not so sure about this stick, though...
+Dialogue: 0,0:14:33.42,0:14:37.00,Q0,,0,0,0,,Maybe I can try using "Packing"\Nto pack it full of magical energy.
+Dialogue: 0,0:14:34.21,0:14:39.04,Q37,,0,0,0,,{\pos(102.4,57.6)}{\an7}PACKING
+Dialogue: 0,0:14:34.21,0:14:39.04,Q38,,0,0,0,,{\pos(115.2,158.4)}{\an7}To pack various things with magic.
+Dialogue: 0,0:14:34.21,0:14:39.04,Q38,,0,0,0,,{\pos(115.2,216)}{\an7}It can have a wide range of effects.
+Dialogue: 0,0:14:39.42,0:14:42.17,Q0,,0,0,0,,Sweet. Worked better than I thought.
+Dialogue: 0,0:14:42.58,0:14:46.83,Q0,,0,0,0,,Forget OP skills, I can make myself OP!
+Dialogue: 0,0:15:04.88,0:15:06.79,Q0,,0,0,0,,Right, one more to go.
+Dialogue: 0,0:15:10.08,0:15:11.54,Q0,,0,0,0,,It's attacks are simple.
+Dialogue: 0,0:15:12.67,0:15:13.58,Q0,,0,0,0,,Easy enough to read!
+Dialogue: 0,0:15:41.71,0:15:43.67,Q0,,0,0,0,,I survived my first battle.
+Dialogue: 0,0:15:45.00,0:15:49.54,Q0,,0,0,0,,It wasn't perfect, but I did good.\NPassed with flying colors.
+Dialogue: 0,0:15:52.50,0:15:56.21,Q0,,0,0,0,,Took more mental damage than physical out there...
+Dialogue: 0,0:16:04.67,0:16:07.96,Q29,,0,0,0,,{\pos(1024,396)}{\an7}Club
+Dialogue: 0,0:16:04.67,0:16:07.96,Q39,,0,0,0,,{\pos(896,446.4)}{\an7}A CLUB MADE OUT OF WOOD
+Dialogue: 0,0:16:05.08,0:16:07.54,Q0,,0,0,0,,I brought back one of the goblin clubs.
+Dialogue: 0,0:16:07.96,0:16:11.50,Q0,,0,0,0,,That it? This thing's short, heavy, and useless.
+Dialogue: 0,0:16:11.50,0:16:13.46,Q0,,0,0,0,,My stick's good enough for now.
+Dialogue: 0,0:16:14.21,0:16:16.29,Q0,,0,0,0,,All right, let's see, then...
+Dialogue: 0,0:16:16.29,0:16:20.29,Q40,,0,0,0,,{\pos(268.8,295.2)}{\an7}RACE
+Dialogue: 0,0:16:16.29,0:16:20.29,Q40,,0,0,0,,{\pos(256,352.8)}{\an7}HUMAN
+Dialogue: 0,0:16:17.79,0:16:20.17,Q0,,0,0,0,,Nice! I leveled up!
+Dialogue: 0,0:16:20.58,0:16:23.50,Q0,,0,0,0,,Whoa! And my stats basically doubled!
+Dialogue: 0,0:16:23.88,0:16:25.75,Q0,,0,0,0,,My Staves skill went up!
+Dialogue: 0,0:16:26.04,0:16:28.21,Q0,,0,0,0,,Just from smashing things with my stick?
+Dialogue: 0,0:16:27.88,0:16:29.96,Q11,,0,0,0,,{\pos(204.8,115.2)}{\an7}MARTIAL ARTS:   STAVES              EVASION        ENEMY DETECTION     MAGIC WRAP
+Dialogue: 0,0:16:27.88,0:16:29.96,Q11,,0,0,0,,{\pos(204.8,194.4)}{\an7}MAGIC:     TEMPERATURE      MOVEMENT         WEIGHT         PACKING       FIRE MAGIC
+Dialogue: 0,0:16:27.88,0:16:29.96,Q11,,0,0,0,,{\pos(204.8,288)}{\an7}SKILLS:           WELL-BEING    SENSITIVITY     CALISTHENICS    WALKING      SUBJUGATE
+Dialogue: 0,0:16:27.88,0:16:29.96,Q11,,0,0,0,,{\pos(217.6,367.2)}{\an7}TITLE:                 SHUT-IN                     NEET                   LONER
+Dialogue: 0,0:16:27.88,0:16:29.96,Q11,,0,0,0,,{\pos(281.6,453.6)}{\an7}COMPANY COMMUNICATOR    MASTER OF NONE     DUMMY
+Dialogue: 0,0:16:27.88,0:16:29.96,Q11,,0,0,0,,{\pos(256,540)}{\an7}WOODEN STICK  PLAIN CLOTHES   LEATHER GLOVES   LEATHER BOOTS   CAPE
+Dialogue: 0,0:16:28.21,0:16:30.00,Q0,,0,0,0,,Huh? My Sensitivity skill, too?
+Dialogue: 0,0:16:30.42,0:16:35.38,Q0,,0,0,0,,Don't even need to get captured by goblins\Nand tormented like some poor lady knight?
+Dialogue: 0,0:16:35.46,0:16:39.96,Q11,,0,0,0,,{\pos(166.4,115.2)}{\an7}MARTIAL ARTS:   STAVES              EVASION        ENEMY DETECTION     MAGIC WRAP
+Dialogue: 0,0:16:35.46,0:16:39.96,Q11,,0,0,0,,{\pos(166.4,194.4)}{\an7}MAGIC:        TEMPERATURE        MOVEMENT         WEIGHT               PACKING           FIRE MAGIC
+Dialogue: 0,0:16:35.46,0:16:39.96,Q11,,0,0,0,,{\pos(166.4,288)}{\an7}SKILLS:              WELL-BEING       SENSITIVITY        CALISTHENICS    WALKING         SUBJUGATE
+Dialogue: 0,0:16:35.46,0:16:39.96,Q11,,0,0,0,,{\pos(179.2,367.2)}{\an7}TITLE:                    SHUT-IN                        NEET                     LONER
+Dialogue: 0,0:16:35.46,0:16:39.96,Q11,,0,0,0,,{\pos(268.8,453.6)}{\an7}COMPANY COMMUNICATOR    MASTER OF NONE     DUMMY
+Dialogue: 0,0:16:35.46,0:16:39.96,Q11,,0,0,0,,{\pos(268.8,540)}{\an7}WOODEN STICK  PLAIN CLOTHES   LEATHER GLOVES   LEATHER BOOTS   CAPE
+Dialogue: 0,0:16:35.83,0:16:37.38,Q0,,0,0,0,,Got something called "Magic Wrap," too?
+Dialogue: 0,0:16:37.38,0:16:39.46,Q0,,0,0,0,,Maybe from packing magic into my stick?
+Dialogue: 0,0:16:40.25,0:16:41.92,Q0,,0,0,0,,Leveled up Calisthenics, too!
+Dialogue: 0,0:16:41.92,0:16:43.75,Q0,,0,0,0,,Must be cause I always do my morning stretches!
+Dialogue: 0,0:16:44.38,0:16:46.63,Q0,,0,0,0,,Err, as of today, at least...
+Dialogue: 0,0:16:48.46,0:16:51.46,Q11,,0,0,0,,{\pos(1100.8,144)}{\an7}DAY 3
+Dialogue: 0,0:16:53.54,0:16:55.92,Q0,,0,0,0,,I am so done with mushrooms...
+Dialogue: 0,0:16:55.92,0:16:58.83,Q0,,0,0,0,,I could really go for some meat, but...
+Dialogue: 0,0:16:59.17,0:17:02.21,Q0,,0,0,0,,I bet the Class Rep wouldn't approve.
+Dialogue: 0,0:17:02.46,0:17:03.96,Q41,,0,0,0,,{\pos(1062.4,223.2)}{\an7}SAY NO
+Dialogue: 0,0:17:02.46,0:17:03.96,Q41,,0,0,0,,{\pos(102.4,396)}{\an7}TO INDULGENCE!
+Dialogue: 0,0:17:09.13,0:17:12.08,Q0,,0,0,0,,'Kay! First things first, I gotta toughen myself up.
+Dialogue: 0,0:17:12.29,0:17:15.21,Q0,,0,0,0,,My new Magic Wrap ability
+Dialogue: 0,0:17:15.25,0:17:21.25,Q42,,0,0,0,,{\pos(358.4,79.2)}{\an7}MAGIC WRAP LV 1:
+Dialogue: 0,0:17:15.58,0:17:21.13,Q0,,0,0,0,,can boost my physical abilities plus my physical and\Nmagic defense, putting most other skill sets to shame!
+Dialogue: 0,0:17:21.25,0:17:25.00,Q43,,0,0,0,,{\pos(563.2,93.6)}{\an7}Magic Wrap
+Dialogue: 0,0:17:21.25,0:17:25.00,Q43,,0,0,0,,{\pos(601.6,194.4)}{\an7}Corner
+Dialogue: 0,0:17:21.58,0:17:24.58,Q0,,0,0,0,,The isekai housewives would line up\Nfor a bargain like this!
+Dialogue: 0,0:17:27.79,0:17:31.50,Q0,,0,0,0,,Wait, my Appraisal skill leveled up, too...
+Dialogue: 0,0:17:31.00,0:17:33.79,Q40,,0,0,0,,{\pos(102.4,100.8)}{\an7}LEATHER GLOVES ?
+Dialogue: 0,0:17:31.50,0:17:33.79,Q40,,0,0,0,,{\pos(102.4,547.2)}{\an7}CAPE ?
+Dialogue: 0,0:17:32.25,0:17:33.79,Q40,,0,0,0,,{\pos(844.8,50.4)}{\an7}WOODEN STICK ?
+Dialogue: 0,0:17:33.13,0:17:34.96,Q0,,0,0,0,,So what's with all these question marks?
+Dialogue: 0,0:17:34.96,0:17:36.63,Q0,,0,0,0,,Seems worse to me.
+Dialogue: 0,0:17:39.71,0:17:42.63,Q0,,0,0,0,,Whatever. Forget about it!
+Dialogue: 0,0:17:42.63,0:17:45.13,Q0,,0,0,0,,Let's go out and have some fun! Yessiree!
+Dialogue: 0,0:17:45.13,0:17:47.50,Q0,,0,0,0,,Time to practice magic now, one-two-three!
+Dialogue: 0,0:17:51.83,0:17:54.38,Q0,,0,0,0,,All right! Nature's bounty is mine!
+Dialogue: 0,0:17:57.75,0:17:59.42,Q0,,0,0,0,,Ugh! No more mushrooms!
+Dialogue: 0,0:17:59.96,0:18:02.88,Q0,,0,0,0,,Where does all the meat grow, huh? Where?!
+Dialogue: 0,0:18:04.67,0:18:07.25,Q0,,0,0,0,,Wait, forget the mushrooms, it's magic time!
+Dialogue: 0,0:18:09.42,0:18:11.29,Q0,,0,0,0,,What am I even doing?
+Dialogue: 0,0:18:12.46,0:18:13.79,Q0,,0,0,0,,Magic Wrap.
+Dialogue: 0,0:18:19.54,0:18:20.75,Q0,,0,0,0,,Feels like that worked.
+Dialogue: 0,0:18:32.67,0:18:33.71,Q0,,0,0,0,,Light as a feather!
+Dialogue: 0,0:18:35.75,0:18:38.08,Q0,,0,0,0,,So fast it's like warping!
+Dialogue: 0,0:18:41.71,0:18:44.79,Q0,,0,0,0,,Whoa! And my attacks are faster than ever!
+Dialogue: 0,0:18:48.17,0:18:49.88,Q0,,0,0,0,,Now for some tougher goblins!
+Dialogue: 0,0:18:48.46,0:18:49.96,Q11,,0,0,0,,{\pos(166.4,57.6)}{\an7}GOBLIN C
+Dialogue: 0,0:18:48.96,0:18:49.96,Q11,,0,0,0,,{\pos(268.8,475.2)}{\an7}GOBLIN D
+Dialogue: 0,0:18:54.92,0:18:56.42,Q0,,0,0,0,,Piece of cake!
+Dialogue: 0,0:18:56.75,0:18:59.71,Q0,,0,0,0,,So long as there's only two, they don't stand a chance!
+Dialogue: 0,0:19:00.21,0:19:02.50,Q0,,0,0,0,,I'm already doing way better than yesterday!
+Dialogue: 0,0:19:02.92,0:19:05.13,Q0,,0,0,0,,Bet I could even handle three!
+Dialogue: 0,0:19:13.92,0:19:16.33,Q0,,0,0,0,,Maybe I'll let them off this time.
+Dialogue: 0,0:19:16.33,0:19:19.08,Q0,,0,0,0,,Gotta head home and practice my magic.
+Dialogue: 0,0:19:20.13,0:19:26.13,Q44,,0,0,0,,{\pos(550.4,381.6)}{\an7}Fight
+Dialogue: 0,0:19:20.13,0:19:26.13,Q44,,0,0,0,,{\pos(550.4,432)}{\an7}Items
+Dialogue: 0,0:19:20.13,0:19:26.13,Q44,,0,0,0,,{\pos(550.4,482.4)}{\an7}Magic
+Dialogue: 0,0:19:20.13,0:19:26.13,Q44,,0,0,0,,{\pos(563.2,532.8)}{\an7}Run
+Dialogue: 0,0:19:20.13,0:19:26.13,Q44,,0,0,0,,{\pos(844.8,532.8)}{\an7}Haruka
+Dialogue: 0,0:19:20.13,0:19:26.13,Q44,,0,0,0,,{\pos(166.4,475.2)}{\an7}Goblin A
+Dialogue: 0,0:19:20.13,0:19:26.13,Q44,,0,0,0,,{\pos(166.4,525.6)}{\an7}Goblin B
+Dialogue: 0,0:19:21.38,0:19:23.63,Q0,,0,0,0,,From there on it was goblin hunting by day,
+Dialogue: 0,0:19:26.17,0:19:27.88,Q0,,0,0,0,,and magic research by night.
+Dialogue: 0,0:19:28.50,0:19:31.88,Q0,,0,0,0,,Or maybe more like DIY time? Just lots of trial and error.
+Dialogue: 0,0:19:32.75,0:19:34.33,Q0,,0,0,0,,Until day five.
+Dialogue: 0,0:19:35.63,0:19:38.42,Q0,,0,0,0,,When I beat a goblin in one hit!
+Dialogue: 0,0:19:39.17,0:19:41.88,Q0,,0,0,0,,Decorated my base a bit, too.
+Dialogue: 0,0:19:42.71,0:19:45.46,Q0,,0,0,0,,Feels like I've got the hang of this isekai thing.
+Dialogue: 0,0:19:47.13,0:19:49.13,Q0,,0,0,0,,Now to just keep it up.
+Dialogue: 0,0:19:51.75,0:19:55.67,Q0,,0,0,0,,YES! Meat at last!
+Dialogue: 0,0:19:55.92,0:19:57.17,Q0,,0,0,0,,Get back here!
+Dialogue: 0,0:19:57.54,0:20:01.38,Q0,,0,0,0,,A little meaty-treat, at last!
+Dialogue: 0,0:20:01.96,0:20:03.08,Q0,,0,0,0,,Gotcha!
+Dialogue: 0,0:20:12.83,0:20:14.67,Q36,,0,0,0,,{\pos(320,388.8)}{\an7}PERCEPTION
+Dialogue: 0,0:20:12.92,0:20:14.67,Q0,,0,0,0,,That was no goblin...
+Dialogue: 0,0:20:19.75,0:20:21.17,Q0,,0,0,0,,Are those...?
+Dialogue: 0,0:20:22.54,0:20:23.83,Q0,,0,0,0,,Ugh...
+Dialogue: 0,0:20:26.33,0:20:29.79,Q0,,0,0,0,,Of course it has to be the class delinquents...
+Dialogue: 0,0:20:30.38,0:20:33.04,Q0,,0,0,0,,I don't want anything to do with them.
+Dialogue: 0,0:20:36.00,0:20:37.17,Q0,,0,0,0,,Wait.
+Dialogue: 0,0:20:37.33,0:20:40.50,Q0,,0,0,0,,There might be someone over there.
+Dialogue: 0,0:20:40.79,0:20:41.96,Q0,,0,0,0,,Clairvoyance!
+Dialogue: 0,0:20:48.63,0:20:51.88,Q0,,0,0,0,,Next it's the gal gang? You gotta be kidding!
+Dialogue: 0,0:20:53.67,0:20:55.67,Q0,,0,0,0,,And over there are the jocks?
+Dialogue: 0,0:20:55.67,0:20:57.42,Q0,,0,0,0,,Definitely don't wanna bump into them!
+Dialogue: 0,0:20:59.29,0:21:03.08,Q0,,0,0,0,,Even the nerds? I mean,\Nwe used to talk sometimes, but...
+Dialogue: 0,0:21:03.08,0:21:03.92,Q0,,0,0,0,,no thanks!
+Dialogue: 0,0:21:10.08,0:21:11.58,Q0,,0,0,0,,The class rep...
+Dialogue: 0,0:21:17.42,0:21:19.50,Q0,,0,0,0,,This world is a vicious place.
+Dialogue: 0,0:21:19.96,0:21:22.25,Q0,,0,0,0,,I know it's better to have companions.
+Dialogue: 0,0:21:23.13,0:21:27.25,Q0,,0,0,0,,I've known the class rep\Nsince our first day at elementary school, too.
+Dialogue: 0,0:21:27.71,0:21:29.88,Q0,,0,0,0,,Maybe I could just...
+Dialogue: 0,0:21:35.04,0:21:37.38,Q0,,0,0,0,,But, no...
+Dialogue: 0,0:21:38.71,0:21:41.67,Q0,,0,0,0,,All this freedom and isolation.
+Dialogue: 0,0:21:42.54,0:21:45.71,Q0,,0,0,0,,No one to tell me what to do!
+Dialogue: 0,0:21:46.67,0:21:50.29,Q0,,0,0,0,,Nothing can beat a life like this!
+Dialogue: 0,0:21:52.00,0:21:54.29,Q0,,0,0,0,,That's it! Of course it is!
+Dialogue: 0,0:21:54.58,0:21:55.42,Q0,,0,0,0,,I...
+Dialogue: 0,0:21:55.83,0:21:56.92,Q0,,0,0,0,,I am...
+Dialogue: 0,0:21:58.25,0:22:03.08,Q0,,0,0,0,,...gonna master this world alone!

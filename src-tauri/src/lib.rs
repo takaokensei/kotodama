@@ -1,5 +1,6 @@
 // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
 pub mod engine;
+pub mod commands;
 
 #[tauri::command]
 fn greet(name: &str) -> String {
@@ -10,7 +11,10 @@ fn greet(name: &str) -> String {
 pub fn run() {
     tauri::Builder::default()
         .plugin(tauri_plugin_opener::init())
-        .invoke_handler(tauri::generate_handler![greet])
+        .invoke_handler(tauri::generate_handler![
+            greet,
+            commands::subs::translate_batch_command
+        ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }

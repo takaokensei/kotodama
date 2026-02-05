@@ -3,8 +3,7 @@ export interface SubtitleEvent {
     start_ms: number;
     end_ms: number;
     text_only: string;
-    style_tags: string;
-    original_text: string;
+    raw_text: string; // Changed from original_text/style_tags to raw_text
 }
 
 export enum SubtitleFormat {
@@ -15,5 +14,5 @@ export enum SubtitleFormat {
 export interface SubtitleFile {
     events: SubtitleEvent[];
     format: SubtitleFormat;
-    header: string | null;
+    header: string;
 }

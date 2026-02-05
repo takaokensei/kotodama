@@ -1,6 +1,7 @@
 import { useRef } from 'react'
 import { useVirtualizer } from '@tanstack/react-virtual'
 import { SubtitleEvent } from '@/lib/types'
+import { invoke } from '@tauri-apps/api/core'
 
 // Mock Data for Phase 1 DoD
 const createDummyData = (count: number): SubtitleEvent[] => {
@@ -9,8 +10,7 @@ const createDummyData = (count: number): SubtitleEvent[] => {
         start_ms: i * 3000,
         end_ms: (i * 3000) + 2500,
         text_only: `Subtitle Line ${i + 1}`,
-        style_tags: '',
-        original_text: `Subtitle Line ${i + 1} - This is the source text which is read-only.`
+        raw_text: `Subtitle Line ${i + 1} - This is raw text.`
     }))
 }
 
@@ -26,11 +26,30 @@ export function SubtitleList() {
         overscan: 5,
     })
 
+    const handleTestBatch = async () => {
+        const batch = rows.slice(0, 5).map(r => r.text_only);
+        console.log("Sending batch:", batch);
+        try {
+            const result = await invoke<string[]>('translate_batch_command', { lines: batch });
+            console.log("Batch Result:", result);
+        } catch (e) {
+            console.error("Translation failed:", e);
+        }
+    }
+
     return (
         <div className="flex flex-col h-screen bg-[#1a1b26] text-[#a9b1d6] font-sans">
             {/* Header */}
             <div className="h-12 border-b border-gray-800 flex items-center px-4 justify-between bg-[#16161e]">
-                <h1 className="font-bold text-lg text-[#7aa2f7]">Kotodama Workspace</h1>
+                <div className="flex items-center gap-4">
+                    <h1 className="font-bold text-lg text-[#7aa2f7]">Kotodama Workspace</h1>
+                    <button
+                        onClick={handleTestBatch}
+                        className="bg-[#7aa2f7] text-[#1a1b26] px-3 py-1 rounded text-xs font-bold hover:bg-[#7aa2f7]/80 active:scale-95 transition-all"
+                    >
+                        TEST BATCH
+                    </button>
+                </div>
                 <div className="text-xs text-gray-500">DoD Phase 1: Virtual List (5k lines)</div>
             </div>
 
@@ -76,8 +95,8 @@ export function SubtitleList() {
                                 </div>
 
                                 {/* Source */}
-                                <div className="flex-1 py-3 px-4 text-sm opacity-70 border-r border-gray-800/50 break-words">
-                                    {row.original_text}
+                                <div className="flex-1 py-3 px-4 text-sm opacity-70 border-r border-gray-800/50 break-words font-mono">
+                                    {row.raw_text}
                                 </div>
 
                                 {/* Target */}
@@ -86,7 +105,7 @@ export function SubtitleList() {
                                         className="w-full bg-transparent outline-none focus:ring-1 focus:ring-[#7aa2f7] rounded p-1 resize-none overflow-hidden"
                                         rows={1}
                                         placeholder="Translation..."
-                                        defaultValue=""
+                                        defaultValue={row.text_only} // Prefill with clean text for now
                                     />
                                 </div>
 
