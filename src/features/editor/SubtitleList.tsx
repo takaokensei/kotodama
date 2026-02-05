@@ -31,6 +31,7 @@ export function SubtitleList() {
     const [translatedLines, setTranslatedLines] = useState(0)
     const [totalLinesToTranslate, setTotalLinesToTranslate] = useState(0)
     const [isCancelling, setIsCancelling] = useState(false)
+    const [hasTranslations, setHasTranslations] = useState(false)
 
     // Range selection state
     const [showRangeSelector, setShowRangeSelector] = useState(false)
@@ -109,6 +110,7 @@ export function SubtitleList() {
 
             if (!isCancelling) {
                 console.log("Translation complete!");
+                setHasTranslations(true);
             }
         } finally {
             setIsTranslating(false);
@@ -218,6 +220,7 @@ export function SubtitleList() {
 
             if (!isCancelling) {
                 console.log("Range translation complete!");
+                setHasTranslations(true);
             }
         } finally {
             setIsTranslating(false);
@@ -431,7 +434,12 @@ export function SubtitleList() {
                         size="sm"
                         onClick={handleExportToMKV}
                         disabled={!originalVideoPath || rows.length === 0}
-                        className="gap-2 bg-accent hover:bg-accent/90"
+                        className={cn(
+                            "gap-2 transition-all duration-300",
+                            hasTranslations
+                                ? "bg-accent hover:bg-accent/90 shadow-lg shadow-accent/50 animate-pulse"
+                                : "bg-accent/50 hover:bg-accent/60"
+                        )}
                     >
                         <Download className="w-4 h-4" /> Export to MKV
                     </Button>
@@ -443,7 +451,7 @@ export function SubtitleList() {
 
             {/* Range Selector Panel */}
             <Collapsible open={showRangeSelector} onOpenChange={setShowRangeSelector}>
-                <CollapsibleContent>
+                <CollapsibleContent className="data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:slide-out-to-top-2 data-[state=open]:slide-in-from-top-2">
                     <div className="px-4 py-3 bg-card/50 backdrop-blur border-b border-border">
                         <Tabs value={rangeMode} onValueChange={(v) => setRangeMode(v as 'index' | 'time')}>
                             <TabsList className="grid w-full max-w-[400px] grid-cols-2">
