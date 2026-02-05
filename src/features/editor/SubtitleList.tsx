@@ -11,9 +11,23 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Badge } from "@/components/ui/badge"
-import { Play, FileVideo, FileText, Globe, MessageSquare, X, Download, ListFilter, ChevronDown, Search, Replace, ChevronUp, CaseSensitive } from "lucide-react"
+import { Play, FileVideo, FileText, Globe, MessageSquare, X, Download, ListFilter, ChevronDown, Search, Replace, ChevronUp, CaseSensitive, Book, Plus, Trash2 } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Logo } from "@/components/Branding"
+import {
+    Sheet,
+    SheetContent,
+    SheetDescription,
+    SheetHeader,
+    SheetTitle,
+    SheetTrigger,
+} from "@/components/ui/sheet"
+
+interface GlossaryItem {
+    id: string;
+    original: string;
+    translated: string;
+}
 
 export function SubtitleList() {
     const parentRef = useRef<HTMLDivElement>(null)
@@ -46,6 +60,11 @@ export function SubtitleList() {
     const [isCaseSensitive, setIsCaseSensitive] = useState(false)
     const [searchMatches, setSearchMatches] = useState<number[]>([])
     const [currentMatchIndex, setCurrentMatchIndex] = useState(-1)
+
+    // Glossary state
+    const [glossary, setGlossary] = useState<GlossaryItem[]>([])
+    const [newTerm, setNewTerm] = useState('')
+    const [newTranslation, setNewTranslation] = useState('')
 
     // Search & Replace logic
     useEffect(() => {
@@ -105,6 +124,38 @@ export function SubtitleList() {
         }
     }
 
+    // Glossary Persistence
+    useEffect(() => {
+        const saved = localStorage.getItem('kotodama_glossary')
+        if (saved) {
+            try {
+                setGlossary(JSON.parse(saved))
+            } catch (e) {
+                console.error("Failed to load glossary:", e)
+            }
+        }
+    }, [])
+
+    useEffect(() => {
+        localStorage.setItem('kotodama_glossary', JSON.stringify(glossary))
+    }, [glossary])
+
+    const handleAddGlossaryTerm = () => {
+        if (!newTerm || !newTranslation) return
+        const newItem: GlossaryItem = {
+            id: Math.random().toString(36).substr(2, 9),
+            original: newTerm,
+            translated: newTranslation
+        }
+        setGlossary(prev => [...prev, newItem])
+        setNewTerm('')
+        setNewTranslation('')
+    }
+
+    const handleRemoveGlossaryTerm = (id: string) => {
+        setGlossary(prev => prev.filter(item => item.id !== id))
+    }
+
     const rowVirtualizer = useVirtualizer({
         count: rows.length,
         getScrollElement: () => parentRef.current,
@@ -145,7 +196,11 @@ export function SubtitleList() {
                 console.log(`Batch ${currentBatch + 1}/${totalBatches}:`, batchTexts.length, "lines");
 
                 try {
-                    const result = await invoke<string[]>('translate_batch_command', { lines: batchTexts });
+                    const glossaryPayload = glossary.map(g => [g.original, g.translated]);
+                    const result = await invoke<string[]>('translate_batch_command', {
+                        lines: batchTexts,
+                        glossary: glossaryPayload.length > 0 ? glossaryPayload : null
+                    });
 
                     // Update rows
                     setRows(prev => {
@@ -258,7 +313,11 @@ export function SubtitleList() {
                 const batchTexts = rows.slice(batchStart, batchEnd).map(r => r.raw_text);
 
                 try {
-                    const result = await invoke<string[]>('translate_batch_command', { lines: batchTexts });
+                    const glossaryPayload = glossary.map(g => [g.original, g.translated]);
+                    const result = await invoke<string[]>('translate_batch_command', {
+                        lines: batchTexts,
+                        glossary: glossaryPayload.length > 0 ? glossaryPayload : null
+                    });
 
                     setRows(prevRows => {
                         const newRows = [...prevRows];
@@ -454,6 +513,106 @@ export function SubtitleList() {
                         <Search className="w-4 h-4" />
                         Search
                     </Button>
+
+                    <Sheet>
+                        <SheetTrigger asChild>
+                            <Button
+                                variant="ghost"
+                                size="sm"
+                                className="gap-2"
+                            >
+                                <Book className="w-4 h-4" />
+                                Glossary
+                                {glossary.length > 0 && (
+                                    <Badge variant="secondary" className="ml-1 h-5 min-w-5 flex items-center justify-center px-1">
+                                        {glossary.length}
+                                    </Badge>
+                                )}
+                            </Button>
+                        </SheetTrigger>
+                        <SheetContent side="right" className="w-[400px] sm:w-[540px] bg-card/95 backdrop-blur-xl border-l border-border shadow-2xl">
+                            <SheetHeader>
+                                <SheetTitle className="flex items-center gap-2 text-primary">
+                                    <Book className="w-5 h-5" />
+                                    Glossary & Terminology
+                                </SheetTitle>
+                                <SheetDescription>
+                                    Define specific translations for terms. These will be used by the AI to ensure consistency.
+                                </SheetDescription>
+                            </SheetHeader>
+
+                            <div className="mt-8 space-y-6">
+                                {/* Add New Term Form */}
+                                <div className="space-y-3 p-4 rounded-xl bg-muted/30 border border-border/50">
+                                    <h4 className="text-sm font-medium flex items-center gap-2">
+                                        <Plus className="w-4 h-4" /> Add New Term
+                                    </h4>
+                                    <div className="grid grid-cols-2 gap-3">
+                                        <div className="space-y-1.5">
+                                            <Label htmlFor="term-original" className="text-[10px] uppercase tracking-wider text-muted-foreground">Source Term</Label>
+                                            <Input
+                                                id="term-original"
+                                                placeholder="e.g. Sword"
+                                                value={newTerm}
+                                                onChange={(e) => setNewTerm(e.target.value)}
+                                                className="h-9 bg-background/50"
+                                            />
+                                        </div>
+                                        <div className="space-y-1.5">
+                                            <Label htmlFor="term-translated" className="text-[10px] uppercase tracking-wider text-muted-foreground">Translation</Label>
+                                            <Input
+                                                id="term-translated"
+                                                placeholder="e.g. Espada"
+                                                value={newTranslation}
+                                                onChange={(e) => setNewTranslation(e.target.value)}
+                                                className="h-9 bg-background/50"
+                                            />
+                                        </div>
+                                    </div>
+                                    <Button
+                                        onClick={handleAddGlossaryTerm}
+                                        className="w-full mt-2 bg-primary hover:bg-primary/90 text-primary-foreground"
+                                        disabled={!newTerm || !newTranslation}
+                                    >
+                                        Add to Glossary
+                                    </Button>
+                                </div>
+
+                                {/* Terms List */}
+                                <div className="space-y-3">
+                                    <h4 className="text-sm font-medium text-muted-foreground px-1">Active Terms ({glossary.length})</h4>
+                                    <div className="space-y-2 max-h-[500px] overflow-y-auto pr-2 scrollbar-thin">
+                                        {glossary.length === 0 ? (
+                                            <div className="text-center py-12 border-2 border-dashed border-border rounded-xl">
+                                                <Book className="w-8 h-8 text-border mx-auto mb-2" />
+                                                <p className="text-sm text-muted-foreground">Your glossary is empty.</p>
+                                            </div>
+                                        ) : (
+                                            glossary.map((item) => (
+                                                <div
+                                                    key={item.id}
+                                                    className="group flex items-center justify-between p-3 rounded-lg bg-muted/20 border border-transparent hover:border-border hover:bg-muted/40 transition-all"
+                                                >
+                                                    <div className="flex flex-col">
+                                                        <span className="text-sm font-semibold text-foreground">{item.original}</span>
+                                                        <span className="text-xs text-primary/80 font-medium">→ {item.translated}</span>
+                                                    </div>
+                                                    <Button
+                                                        variant="ghost"
+                                                        size="icon"
+                                                        className="h-8 w-8 text-muted-foreground hover:text-destructive hover:bg-destructive/10 opacity-0 group-hover:opacity-100 transition-opacity"
+                                                        onClick={() => handleRemoveGlossaryTerm(item.id)}
+                                                    >
+                                                        <Trash2 className="w-4 h-4" />
+                                                    </Button>
+                                                </div>
+                                            ))
+                                        )}
+                                    </div>
+                                </div>
+                            </div>
+                        </SheetContent>
+                    </Sheet>
 
                     <div className="h-6 w-px bg-border mx-1" />
 

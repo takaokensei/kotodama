@@ -27,10 +27,14 @@ fn strip_ass_formatting(text: &str) -> String {
 // But following simple pattern:
 
 #[tauri::command]
-pub async fn translate_batch_command(lines: Vec<String>) -> Result<Vec<String>, String> {
+pub async fn translate_batch_command(
+    lines: Vec<String>,
+    glossary: Option<Vec<(String, String)>>
+) -> Result<Vec<String>, String> {
     println!(
-        "Backend: translate_batch_command called with {} lines",
-        lines.len()
+        "Backend: translate_batch_command called with {} lines and glossary: {:?}",
+        lines.len(),
+        glossary
     );
 
 
@@ -42,7 +46,7 @@ pub async fn translate_batch_command(lines: Vec<String>) -> Result<Vec<String>, 
     // Instantiate client (in production, use managed state)
     let client = OllamaClient::new(None);
 
-    match client.translate_batch(cleaned_lines).await {
+    match client.translate_batch(cleaned_lines, glossary).await {
         Ok(translated) => {
             println!("Backend: Translation success: {:?}", translated);
             Ok(translated)

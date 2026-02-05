@@ -46,21 +46,36 @@ impl OllamaClient {
         }
     }
 
-    pub async fn translate_batch(&self, lines: Vec<String>) -> Result<Vec<String>> {
+    pub async fn translate_batch(
+        &self, 
+        lines: Vec<String>, 
+        glossary: Option<Vec<(String, String)>>
+    ) -> Result<Vec<String>> {
         if lines.is_empty() {
             return Ok(vec![]);
         }
 
-        let system_prompt = r#"
+        let glossary_context = match glossary {
+            Some(terms) if !terms.is_empty() => {
+                let mut ctx = String::from("\nMandatory Terminology (Glossary):\n");
+                for (orig, trans) in terms {
+                    ctx.push_str(&format!("- \"{}\" MUST be translated as \"{}\"\n", orig, trans));
+                }
+                ctx
+            }
+            _ => String::new(),
+        };
+
+        let system_prompt = format!(r#"
 You are an expert anime fansub translator (English to Portuguese Brazil).
 Translate the subtitle lines contained in the input array.
 
 Context:
 - Genre: General Anime / Slice of Life / Isekai.
 - Tone: Informal, spoken, natural Brazilian Portuguese (Anime Fansub style).
-
+{}
 Output Format:
-JSON Object: { "translations": ["Line 1", "Line 2"] }
+JSON Object: {{ "translations": ["Line 1", "Line 2"] }}
 
 Rules:
 1. **Translate concepts, not just words**: Adapt idioms to Portuguese (e.g., "Talk about close" -> "Foi por pouco!").
@@ -73,10 +88,10 @@ Example Input:
 ["Hello.", "I was spending lunch reading.", "It's a beautiful day.\nLet's go!"]
 
 Example Output:
-{
+{{
   "translations": ["Olá.", "Eu passava o almoço lendo.", "Está um belo dia.\nVamos nessa!"]
-}
-"#;
+}}
+"#, glossary_context);
 
         let user_prompt = format!(
             "Translate the following JSON array to Brazilian Portuguese:\n{}",
