@@ -21,6 +21,7 @@ pub struct SubtitleEvent {
     pub style: String,     // Formatting style
     pub text_only: String, // Clean text for LLM inference
     pub raw_text: String,  // Original text payload (preserving tags/structure)
+    pub status: String,    // "original" | "translated" | "error"
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -122,6 +123,7 @@ fn parse_srt(content: &str) -> Result<SubtitleFile> {
             style: String::new(),
             text_only,
             raw_text,
+            status: "original".to_string(),
         });
     }
 
@@ -219,6 +221,7 @@ pub fn parse_ass(content: &str) -> Result<SubtitleFile> {
                 style: parts.get(style_idx).unwrap_or(&"").trim().to_string(),
                 text_only,
                 raw_text,
+                status: "original".to_string(),
             });
             idx_counter += 1;
         }

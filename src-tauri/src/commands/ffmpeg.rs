@@ -176,14 +176,15 @@ async fn embed_subtitle(
 
     println!("Backend: Running FFmpeg with args: {:?}", args);
     
-    let status = Command::new("ffmpeg")
+    let output = Command::new("ffmpeg")
         .args(&args)
-        .status()
+        .output()
         .map_err(|e| anyhow!("Failed to execute ffmpeg: {}. Is ffmpeg in PATH?", e))?;
 
-    if !status.success() {
-        println!("Backend: FFmpeg failed with status: {:?}", status);
-        return Err(anyhow!("FFmpeg muxing failed with error code"));
+    if !output.status.success() {
+        let stderr = String::from_utf8_lossy(&output.stderr);
+        println!("Backend: FFmpeg failed with status: {:?}\nStderr: {}", output.status, stderr);
+        return Err(anyhow!("FFmpeg muxing failed: {}", stderr));
     }
 
     println!("Backend: FFmpeg muxing completed successfully");

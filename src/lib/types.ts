@@ -6,6 +6,7 @@ export interface SubtitleEvent {
     style: string;
     text_only: string;
     raw_text: string;
+    status: 'original' | 'translated' | 'error';
 }
 
 export enum SubtitleFormat {

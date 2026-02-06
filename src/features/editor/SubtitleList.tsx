@@ -11,9 +11,11 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Badge } from "@/components/ui/badge"
-import { Play, FileVideo, FileText, Globe, MessageSquare, X, Download, ListFilter, ChevronDown, Search, Replace, ChevronUp, CaseSensitive, Book, Plus, Trash2, Save, FolderOpen, Clock } from "lucide-react"
+import { Play, FileVideo, FileText, Globe, MessageSquare, X, Download, ListFilter, ChevronDown, Search, Replace, ChevronUp, CaseSensitive, Book, Plus, Trash2, Save, FolderOpen, Clock, Settings2, Layers } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Logo } from "@/components/Branding"
+import { SettingsDialog } from "@/components/SettingsDialog"
+import { BatchQueue } from "@/features/batch/BatchQueue"
 import {
     Sheet,
     SheetContent,
@@ -56,6 +58,13 @@ export function SubtitleList() {
     const [rangeStart, setRangeStart] = useState('1')
     const [rangeEnd, setRangeEnd] = useState('25')
 
+    // Export Modal state
+    const [showExportModal, setShowExportModal] = useState(false);
+    const [exportFileName, setExportFileName] = useState("");
+    const [exportStatus, setExportStatus] = useState<'idle' | 'exporting' | 'success' | 'error'>('idle');
+    const [exportResultPath, setExportResultPath] = useState("");
+    const [exportError, setExportError] = useState("");
+
     // Search & Replace state
     const [showSearch, setShowSearch] = useState(false)
     const [searchQuery, setSearchQuery] = useState('')
@@ -68,6 +77,32 @@ export function SubtitleList() {
     const [glossary, setGlossary] = useState<GlossaryItem[]>([])
     const [newTerm, setNewTerm] = useState('')
     const [newTranslation, setNewTranslation] = useState('')
+
+    const [showSettings, setShowSettings] = useState(false)
+    const [showBatchQueue, setShowBatchQueue] = useState(false)
+
+    const translateWithRetry = async (richLines: any[], history: any[], glossaryItems: GlossaryItem[], maxRetries = 3): Promise<string[]> => {
+        let attempt = 0;
+        const glossaryPayload = glossaryItems.map(g => [g.original, g.translated]);
+        while (attempt < maxRetries) {
+            try {
+                const result = await invoke<string[]>('translate_batch_command', {
+                    lines: richLines,
+                    history: history,
+                    glossary: glossaryPayload.length > 0 ? glossaryPayload : null
+                });
+
+                if (result.length === richLines.length) {
+                    return result;
+                }
+                console.warn(`Attempt ${attempt + 1}: Line count mismatch. Expected ${richLines.length}, got ${result.length}. Retrying...`);
+            } catch (err) {
+                console.error(`Attempt ${attempt + 1}: Translation error:`, err);
+            }
+            attempt++;
+        }
+        throw new Error(`Failed to translate batch after ${maxRetries} attempts.`);
+    };
 
     // Search & Replace logic
     useEffect(() => {
@@ -175,17 +210,14 @@ export function SubtitleList() {
         setTranslationProgress(0);
 
         const totalLines = rows.length;
-        const batchSize = 25;
+        const batchSize = 12;
         const totalBatches = Math.ceil(totalLines / batchSize);
         let currentBatch = 0;
         const startTime = performance.now();
 
         try {
             for (let i = 0; i < totalLines; i += batchSize) {
-                if (isCancelling) {
-                    console.log("Translation cancelled by user");
-                    break;
-                }
+                if (isCancelling) break;
 
                 const batchIndices = Array.from(
                     { length: Math.min(batchSize, totalLines - i) },
@@ -201,7 +233,6 @@ export function SubtitleList() {
 
                 if (batchRichLines.length === 0) continue;
 
-                // Context Buffer: Last 5 translated lines
                 const history = i > 0
                     ? rows.slice(Math.max(0, i - 5), i)
                         .map(r => r.text_only)
@@ -211,14 +242,8 @@ export function SubtitleList() {
                 console.log(`Batch ${currentBatch + 1}/${totalBatches}:`, batchRichLines.length, "lines");
 
                 try {
-                    const glossaryPayload = glossary.map(g => [g.original, g.translated]);
-                    const result = await invoke<string[]>('translate_batch_command', {
-                        lines: batchRichLines,
-                        history: history,
-                        glossary: glossaryPayload.length > 0 ? glossaryPayload : null
-                    });
+                    const result = await translateWithRetry(batchRichLines, history || [], glossary);
 
-                    // Update rows
                     setRows(prev => {
                         const newRows = [...prev];
                         result.forEach((translatedText, idx) => {
@@ -226,28 +251,25 @@ export function SubtitleList() {
                             if (newRows[rowIndex]) {
                                 newRows[rowIndex] = {
                                     ...newRows[rowIndex],
-                                    text_only: translatedText
+                                    text_only: translatedText,
+                                    status: 'translated'
                                 };
                             }
                         });
                         return newRows;
                     });
 
-                    // Update progress
                     currentBatch++;
                     const linesTranslated = Math.min((currentBatch * batchSize), totalLines);
                     setTranslatedLines(linesTranslated);
                     setTranslationProgress(Math.round((linesTranslated / totalLines) * 100));
 
-                    // ETA Calculation
                     const elapsed = performance.now() - startTime;
                     const msPerLine = elapsed / linesTranslated;
                     const remainingLines = totalLines - linesTranslated;
                     setEstimatedTimeRemaining(Math.round((msPerLine * remainingLines) / 1000));
-
                 } catch (e) {
                     console.error(`Batch ${currentBatch + 1} failed:`, e);
-                    // Continue with next batch despite error
                 }
             }
 
@@ -258,6 +280,7 @@ export function SubtitleList() {
         } finally {
             setIsTranslating(false);
             setIsCancelling(false);
+            setEstimatedTimeRemaining(null);
         }
     }
 
@@ -325,7 +348,7 @@ export function SubtitleList() {
 
         const totalLines = end - start;
         setTotalLinesToTranslate(totalLines);
-        const batchSize = 25;
+        const batchSize = 12;
         let currentBatch = 0;
         const startTime = performance.now();
 
@@ -346,12 +369,7 @@ export function SubtitleList() {
                     : null;
 
                 try {
-                    const glossaryPayload = glossary.map(g => [g.original, g.translated]);
-                    const result = await invoke<string[]>('translate_batch_command', {
-                        lines: batchRichLines,
-                        history: history,
-                        glossary: glossaryPayload.length > 0 ? glossaryPayload : null
-                    });
+                    const result = await translateWithRetry(batchRichLines, history || [], glossary);
 
                     setRows(prevRows => {
                         const newRows = [...prevRows];
@@ -360,7 +378,8 @@ export function SubtitleList() {
                             if (rowIndex < newRows.length) {
                                 newRows[rowIndex] = {
                                     ...newRows[rowIndex],
-                                    text_only: translatedText
+                                    text_only: translatedText,
+                                    status: 'translated'
                                 };
                             }
                         });
@@ -459,16 +478,29 @@ export function SubtitleList() {
         }
     }
 
-    const handleExportToMKV = async () => {
-        if (!originalVideoPath || rows.length === 0) {
-            alert("No video loaded or no subtitles to export");
-            return;
+    const handleExportNative = async () => {
+        if (!originalVideoPath || rows.length === 0) return;
+
+        // Determine directory of original video
+        const lastSlash = Math.max(originalVideoPath.lastIndexOf('/'), originalVideoPath.lastIndexOf('\\'));
+        const videoDir = lastSlash !== -1 ? originalVideoPath.substring(0, lastSlash + 1) : "";
+
+        // Default name if empty
+        let finalName = exportFileName.trim();
+        if (!finalName) {
+            const baseFile = originalVideoPath.substring(lastSlash + 1);
+            const lastDot = baseFile.lastIndexOf('.');
+            const nameWithoutExt = lastDot !== -1 ? baseFile.substring(0, lastDot) : baseFile;
+            finalName = nameWithoutExt + ".translated.mkv";
         }
+        if (!finalName.endsWith('.mkv')) finalName += ".mkv";
 
+        // Ensure we have an absolute path if user just provided a filename
+        const isAbsolute = /^[a-zA-Z]:\\|^[a-zA-Z]:\/|^\/|^\\\\/.test(finalName);
+        const finalAbsolutePath = isAbsolute ? finalName : videoDir + finalName;
+
+        setExportStatus('exporting');
         try {
-            console.log("Starting export process...");
-            console.log("Original video path:", originalVideoPath);
-
             // 1. Save current subtitles to temp file
             const tempSubPath = `${originalVideoPath}.translated.ass`;
             const subtitleFile: SubtitleFile = {
@@ -477,34 +509,28 @@ export function SubtitleList() {
                 header: ""
             };
 
-            console.log("Saving subtitles to:", tempSubPath);
             await invoke('save_subtitle_command', {
                 file: subtitleFile,
                 path: tempSubPath
             });
-            console.log("✓ Subtitles saved successfully");
 
-            // 2. Generate output path
-            const outputPath = originalVideoPath.replace(/\.mkv$/i, '.translated.mkv');
-            console.log("Output path will be:", outputPath);
-
-            // 3. Embed subtitles
-            console.log("Starting FFmpeg muxing...");
+            // 2. Mux
             const result = await invoke<string>('embed_subtitle_command', {
                 videoPath: originalVideoPath,
                 subtitlePath: tempSubPath,
-                outputPath: outputPath,
-                language: "por",
-                title: "Portuguese (Translated)"
+                outputPath: finalAbsolutePath
             });
-            console.log("✓ FFmpeg muxing completed:", result);
 
-            alert(`Export successful!\nOutput: ${outputPath}`);
+            console.log("Export Result:", result);
+            setExportResultPath(result);
+            setExportStatus('success');
         } catch (e) {
-            console.error("Export failed:", e);
-            alert("Export Failed: " + e);
+            console.error("Export Error:", e);
+            setExportError(String(e));
+            setExportStatus('error');
         }
     }
+
 
     const handleLoadTestFile = async () => {
         try {
@@ -607,6 +633,16 @@ export function SubtitleList() {
                         Import MKV
                     </Button>
 
+                    <Button
+                        variant="secondary"
+                        size="sm"
+                        onClick={() => setShowBatchQueue(true)}
+                        className="gap-2 border-accent/20 text-accent hover:bg-accent/10"
+                    >
+                        <Layers className="w-4 h-4" />
+                        Batch
+                    </Button>
+
                     <div className="flex gap-1">
                         <Button
                             variant="ghost"
@@ -628,6 +664,15 @@ export function SubtitleList() {
                         >
                             <FolderOpen className="w-4 h-4" />
                             <span className="hidden lg:inline">Load</span>
+                        </Button>
+                        <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => setShowSettings(true)}
+                            className="gap-1.5 text-muted-foreground hover:text-accent"
+                            title="Configurações"
+                        >
+                            <Settings2 className="w-4 h-4" />
                         </Button>
                     </div>
 
@@ -799,7 +844,16 @@ export function SubtitleList() {
 
                     <Button
                         size="sm"
-                        onClick={handleExportToMKV}
+                        onClick={() => {
+                            if (originalVideoPath) {
+                                let defaultName = originalVideoPath.split(/[/\\]/).pop() || "";
+                                if (defaultName.includes('.')) {
+                                    defaultName = defaultName.substring(0, defaultName.lastIndexOf('.'));
+                                }
+                                setExportFileName(defaultName + ".translated.mkv");
+                            }
+                            setShowExportModal(true);
+                        }}
                         disabled={!originalVideoPath || rows.length === 0}
                         className={cn(
                             "gap-2 transition-all duration-300",
@@ -1025,8 +1079,8 @@ export function SubtitleList() {
                                     {translatedLines} / {totalLinesToTranslate || rows.length} lines ({translationProgress}%)
                                 </span>
                                 {estimatedTimeRemaining !== null && (
-                                    <span className="text-[10px] font-mono text-accent animate-pulse font-bold flex items-center gap-1 bg-accent/10 px-2 py-0.5 rounded-full border border-accent/20">
-                                        <Clock className="w-3 h-3" />
+                                    <span className="text-lg font-mono text-accent animate-pulse font-bold flex items-center gap-2 bg-accent/10 px-3 py-1 rounded-full border border-accent/20 shadow-[0_0_15px_rgba(122,162,247,0.2)]">
+                                        <Clock className="w-5 h-5" />
                                         ETA: {formatETA(estimatedTimeRemaining)}
                                     </span>
                                 )}
@@ -1113,8 +1167,13 @@ export function SubtitleList() {
                                 </div>
 
                                 {/* Status */}
-                                <div className="w-16 py-3 flex justify-center">
-                                    <div className="w-3 h-3 rounded-full bg-destructive/50 ring-1 ring-destructive/20"></div>
+                                <div className="w-16 py-3 flex justify-center items-center">
+                                    <div className={cn(
+                                        "w-3 h-3 rounded-full transition-colors",
+                                        row.status === 'translated' ? "bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.4)]" :
+                                            row.status === 'error' ? "bg-red-500" :
+                                                "bg-muted-foreground/20"
+                                    )} title={row.status || 'original'} />
                                 </div>
                             </div>
                         )
@@ -1153,6 +1212,135 @@ export function SubtitleList() {
                     </div>
                 </DialogContent>
             </Dialog>
+            {/* Custom Export Modal */}
+            <Dialog open={showExportModal} onOpenChange={(open) => {
+                if (!open && exportStatus === 'exporting') return;
+                setShowExportModal(open);
+                if (!open) {
+                    setTimeout(() => {
+                        setExportStatus('idle');
+                        setExportError("");
+                        setExportResultPath("");
+                    }, 300);
+                }
+            }}>
+                <DialogContent className="sm:max-w-[500px] border-border bg-card/95 backdrop-blur-xl text-card-foreground shadow-2xl p-0 overflow-hidden">
+                    <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-accent/5 pointer-events-none" />
+
+                    <div className="relative p-6">
+                        <DialogHeader className="mb-6">
+                            <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4">
+                                <Download className="w-6 h-6 text-primary" />
+                            </div>
+                            <DialogTitle className="text-2xl font-bold tracking-tight">Export Video</DialogTitle>
+                            <DialogDescription className="text-muted-foreground">
+                                Muxing translated subtitles into a new MKV container.
+                            </DialogDescription>
+                        </DialogHeader>
+
+                        {exportStatus === 'idle' && (
+                            <div className="space-y-4 animate-in fade-in slide-in-from-bottom-2 duration-300">
+                                <div className="space-y-2">
+                                    <Label htmlFor="export-name" className="text-xs uppercase font-bold tracking-wider text-muted-foreground">
+                                        Output Filename
+                                    </Label>
+                                    <div className="relative group">
+                                        <Input
+                                            id="export-name"
+                                            value={exportFileName}
+                                            onChange={(e) => setExportFileName(e.target.value)}
+                                            placeholder="video_name.translated.mkv"
+                                            className="pr-12 bg-muted/30 border-primary/20 focus-visible:ring-primary h-12 text-sm font-medium"
+                                        />
+                                        <div className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground text-[10px] font-mono select-none">
+                                            .mkv
+                                        </div>
+                                    </div>
+                                    <p className="text-[10px] text-muted-foreground italic px-1">
+                                        Tip: Leave empty to use original name + ".translated"
+                                    </p>
+                                </div>
+
+                                <div className="pt-4 flex gap-3">
+                                    <Button
+                                        variant="outline"
+                                        className="flex-1 border-primary/10 hover:bg-muted/50"
+                                        onClick={() => setShowExportModal(false)}
+                                    >
+                                        Cancel
+                                    </Button>
+                                    <Button
+                                        className="flex-1 bg-primary text-primary-foreground hover:bg-primary/90 shadow-lg shadow-primary/20 gap-2"
+                                        onClick={handleExportNative}
+                                    >
+                                        <Download className="w-4 h-4" />
+                                        Start Muxing
+                                    </Button>
+                                </div>
+                            </div>
+                        )}
+
+                        {exportStatus === 'exporting' && (
+                            <div className="py-12 flex flex-col items-center justify-center animate-in fade-in zoom-in-95 duration-500">
+                                <div className="relative w-20 h-20 mb-6">
+                                    <div className="absolute inset-0 rounded-full border-4 border-primary/10 border-t-primary animate-spin" />
+                                    <div className="absolute inset-0 flex items-center justify-center">
+                                        <FileVideo className="w-8 h-8 text-primary/40" />
+                                    </div>
+                                </div>
+                                <h3 className="text-lg font-bold mb-1">Muxing Subtitles...</h3>
+                                <p className="text-sm text-muted-foreground animate-pulse">Running FFmpeg in the background</p>
+                            </div>
+                        )}
+
+                        {exportStatus === 'success' && (
+                            <div className="py-6 space-y-4 animate-in fade-in zoom-in-95 duration-500">
+                                <div className="w-16 h-16 rounded-full bg-green-500/10 border border-green-500/20 flex items-center justify-center mx-auto mb-2">
+                                    <div className="relative w-full h-full flex items-center justify-center">
+                                        <div className="w-8 h-8 rounded-full bg-green-500 animate-ping absolute" />
+                                        <Play className="w-8 h-8 text-green-500 relative" />
+                                    </div>
+                                </div>
+                                <div className="text-center">
+                                    <h3 className="text-xl font-bold text-green-400">Export Successful!</h3>
+                                    <p className="text-sm text-muted-foreground mt-2 line-clamp-2 bg-muted/30 p-2 rounded text-xs font-mono break-all">
+                                        {exportResultPath}
+                                    </p>
+                                </div>
+                                <Button
+                                    className="w-full mt-4"
+                                    onClick={() => setShowExportModal(false)}
+                                >
+                                    Dismiss
+                                </Button>
+                            </div>
+                        )}
+
+                        {exportStatus === 'error' && (
+                            <div className="py-6 space-y-4 animate-in fade-in zoom-in-95 duration-500">
+                                <div className="w-16 h-16 rounded-full bg-destructive/10 border border-destructive/20 flex items-center justify-center mx-auto mb-2">
+                                    <X className="w-8 h-8 text-destructive" />
+                                </div>
+                                <div className="text-center">
+                                    <h3 className="text-xl font-bold text-destructive">Muxing Failed</h3>
+                                    <p className="text-sm text-destructive/80 mt-2 bg-destructive/5 p-2 rounded text-xs font-mono">
+                                        {exportError}
+                                    </p>
+                                </div>
+                                <Button
+                                    variant="outline"
+                                    className="w-full mt-4 border-destructive/20 hover:bg-destructive/10"
+                                    onClick={() => setExportStatus('idle')}
+                                >
+                                    Try Again
+                                </Button>
+                            </div>
+                        )}
+                    </div>
+                </DialogContent>
+            </Dialog>
+            <SettingsDialog open={showSettings} onOpenChange={setShowSettings} />
+            <BatchQueue open={showBatchQueue} onOpenChange={setShowBatchQueue} glossary={glossary} />
         </div >
     )
 }

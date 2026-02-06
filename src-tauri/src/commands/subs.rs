@@ -24,6 +24,7 @@ fn strip_ass_formatting(text: &str) -> String {
 
 #[tauri::command]
 pub async fn translate_batch_command(
+    app_handle: tauri::AppHandle,
     lines: Vec<RichLine>,
     history: Option<Vec<String>>,
     glossary: Option<Vec<(String, String)>>
@@ -43,8 +44,12 @@ pub async fn translate_batch_command(
         })
         .collect();
 
-    // Instantiate client (in production, use managed state)
-    let client = OllamaClient::new(None);
+    // Load configuration
+    let config = crate::engine::config::AppConfig::load(&app_handle)
+        .unwrap_or_default();
+
+    // Instantiate client with config
+    let client = OllamaClient::new(Some(config));
 
     match client.translate_batch(cleaned_lines, history, glossary).await {
         Ok(translated) => {

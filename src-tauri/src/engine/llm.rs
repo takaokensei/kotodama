@@ -1,10 +1,11 @@
+use crate::engine::config::AppConfig;
 use anyhow::{anyhow, Result};
 use log::{error, info};
+use regex::Regex;
 use reqwest::Client;
 use serde::{Deserialize, Serialize};
 
-const OLLAMA_API_URL: &str = "http://localhost:11434/api/generate";
-const DEFAULT_MODEL: &str = "llama3.1:8b";
+
 
 #[derive(Serialize)]
 struct OllamaRequest {
@@ -41,14 +42,14 @@ struct TranslationOutput {
 #[derive(Clone)]
 pub struct OllamaClient {
     client: Client,
-    model: String,
+    config: AppConfig,
 }
 
 impl OllamaClient {
-    pub fn new(model: Option<String>) -> Self {
+    pub fn new(config: Option<AppConfig>) -> Self {
         Self {
             client: Client::new(),
-            model: model.unwrap_or_else(|| DEFAULT_MODEL.to_string()),
+            config: config.unwrap_or_default(),
         }
     }
 
@@ -62,15 +63,20 @@ impl OllamaClient {
             return Ok(vec![]);
         }
 
-        let glossary_context = match glossary {
-            Some(terms) if !terms.is_empty() => {
-                let mut ctx = String::from("\nMandatory Terminology (Glossary):\n");
+        let glossary_context = {
+            let mut ctx = String::from("\nMandatory Terminology (Glossary):\n");
+            // 1. Base Genre Glossary (Static)
+            ctx.push_str("- \"Light Novel\" MUST be translated as \"Light Novel\"\n");
+            ctx.push_str("- \"Isekai\" MUST be translated as \"Isekai\"\n");
+            ctx.push_str("- \"Class Rep\" MUST be translated as \"Representante de Classe\"\n");
+            
+            // 2. User Glossary (Dynamic)
+            if let Some(terms) = glossary {
                 for (orig, trans) in terms {
                     ctx.push_str(&format!("- \"{}\" MUST be translated as \"{}\"\n", orig, trans));
                 }
-                ctx
             }
-            _ => String::new(),
+            ctx
         };
 
         let history_context = match history {
@@ -82,34 +88,24 @@ impl OllamaClient {
 
         let system_prompt = format!(r#"
 You are an expert anime fansub translator (English to Portuguese Brazil).
-Translate the subtitle lines contained in the input array.
+Translate exactly {} subtitle lines.
 
-Context:
-- Genre: General Anime / Slice of Life / Isekai.
-- Tone: Informal, spoken, natural Brazilian Portuguese (Anime Fansub style).
-{}{}
-Output Format:
-JSON Object: {{ "translations": ["Line 1", "Line 2"] }}
+Core Objective:
+- **Fansub Style**: Natural, spoken Brazilian Portuguese. Use "você", "cara", "então" naturally.
+- **Context Awareness**: Use character names and history to keep consistent genders and tone.
+- **Format**: Return a JSON object with exactly ONE key: "translations".
 
-Rules:
-1. **Persona Consistency**: Use the provided "Actor" names to maintain a consistent voice.
-2. **Translate concepts, not just words**: Adapt idioms to Portuguese (e.g., "Talk about close" -> "Foi por pouco!").
-3. **Avoid Literal Translation**: Detect phrasing like "spending lunch reading" and translate the *meaning* (e.g., "passava o almoço lendo").
-4. **Preserve newlines (\n)** exactly where they appear in the source.
-5. Maintain exact line count.
-6. Do not output markdown.
-
-Example Input (Rich Format):
-[
-  {{ "actor": "Hitori", "text": "I was spending lunch reading." }},
-  {{ "actor": "Nijika", "text": "It's a beautiful day.\nLet's go!" }}
-]
+{}{}{}
 
 Example Output:
-{{
-  "translations": ["Eu passava o almoço lendo.", "Está um belo dia.\nVamos nessa!"]
-}}
-"#, history_context, glossary_context);
+{{ "translations": ["First line here", "Second line here"] }}
+
+IMPORTANT: 
+1. The "translations" array MUST contain exactly {} items.
+2. Put ALL {} translations into a SINGLE array under the "translations" key. 
+3. DO NOT use multiple "translations" keys.
+4. DO NOT repeat content.
+"#, lines.len(), history_context, glossary_context, lines.len(), lines.len(), lines.len());
 
         let user_prompt = format!(
             "Translate the following JSON array to Brazilian Portuguese:\n{}",
@@ -118,12 +114,12 @@ Example Output:
         let full_prompt = format!("{}\n\n{}", system_prompt, user_prompt);
 
         let request = OllamaRequest {
-            model: self.model.clone(),
+            model: self.config.model_name.clone(),
             prompt: full_prompt,
             stream: false,
             format: "json".to_string(),
             options: OllamaOptions {
-                temperature: 0.3,
+                temperature: self.config.temperature,
                 num_gpu: 999,  // Force full GPU offload
                 num_ctx: 4096, // Ensure enough context for batches
             },
@@ -133,7 +129,7 @@ Example Output:
 
         let res = self
             .client
-            .post(OLLAMA_API_URL)
+            .post(&self.config.ollama_url)
             .json(&request)
             .send()
             .await
@@ -149,12 +145,22 @@ Example Output:
             .await
             .map_err(|e| anyhow!("Failed to parse Ollama response: {}", e))?;
 
-        // Parse the inner JSON string returned by Ollama
-        let output: TranslationOutput = serde_json::from_str(&body.response).map_err(|e| {
+        let raw_response = body.response.trim();
+        
+        // --- JSON REPAIR LOGIC ---
+        // If the model returns multiple "translations" keys, merge them.
+        let mut final_json = raw_response.to_string();
+        if raw_response.matches("\"translations\"").count() > 1 {
+            info!("LLM returned duplicate keys. Attempting JSON repair...");
+            let re = Regex::new(r#"\]\s*,\s*"translations"\s*:\s*\["#).unwrap();
+            final_json = re.replace_all(raw_response, ", ").to_string();
+        }
+
+        let output: TranslationOutput = serde_json::from_str(&final_json).map_err(|e| {
             anyhow!(
                 "Llama/Qwen returned invalid JSON structure: {}. Content: {}",
                 e,
-                body.response
+                final_json
             )
         })?;
 
